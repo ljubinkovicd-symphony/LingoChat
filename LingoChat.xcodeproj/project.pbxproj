@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0FEA73351FC1153F005EB6CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA73341FC1153F005EB6CD /* AppDelegate.swift */; };
+		0FEA73371FC1153F005EB6CD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA73361FC1153F005EB6CD /* ViewController.swift */; };
+		0FEA733A1FC1153F005EB6CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FEA73381FC1153F005EB6CD /* Main.storyboard */; };
+		0FEA733C1FC1153F005EB6CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FEA733B1FC1153F005EB6CD /* Assets.xcassets */; };
+		0FEA733F1FC1153F005EB6CD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FEA733D1FC1153F005EB6CD /* LaunchScreen.storyboard */; };
+		0FEA734A1FC1153F005EB6CD /* LingoChatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA73491FC1153F005EB6CD /* LingoChatTests.swift */; };
+		0FEA73551FC1153F005EB6CD /* LingoChatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA73541FC1153F005EB6CD /* LingoChatUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0FEA73461FC1153F005EB6CD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0FEA73291FC1153F005EB6CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0FEA73301FC1153F005EB6CD;
+			remoteInfo = LingoChat;
+		};
+		0FEA73511FC1153F005EB6CD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0FEA73291FC1153F005EB6CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0FEA73301FC1153F005EB6CD;
+			remoteInfo = LingoChat;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0FEA73311FC1153F005EB6CD /* LingoChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LingoChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0FEA73341FC1153F005EB6CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		0FEA73361FC1153F005EB6CD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		0FEA73391FC1153F005EB6CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0FEA733B1FC1153F005EB6CD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0FEA733E1FC1153F005EB6CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0FEA73401FC1153F005EB6CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0FEA73451FC1153F005EB6CD /* LingoChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LingoChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0FEA73491FC1153F005EB6CD /* LingoChatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LingoChatTests.swift; sourceTree = "<group>"; };
+		0FEA734B1FC1153F005EB6CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0FEA73501FC1153F005EB6CD /* LingoChatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LingoChatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0FEA73541FC1153F005EB6CD /* LingoChatUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LingoChatUITests.swift; sourceTree = "<group>"; };
+		0FEA73561FC1153F005EB6CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0FEA732E1FC1153F005EB6CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0FEA73421FC1153F005EB6CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0FEA734D1FC1153F005EB6CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0FEA73281FC1153F005EB6CD = {
+			isa = PBXGroup;
+			children = (
+				0FEA73331FC1153F005EB6CD /* LingoChat */,
+				0FEA73481FC1153F005EB6CD /* LingoChatTests */,
+				0FEA73531FC1153F005EB6CD /* LingoChatUITests */,
+				0FEA73321FC1153F005EB6CD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0FEA73321FC1153F005EB6CD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0FEA73311FC1153F005EB6CD /* LingoChat.app */,
+				0FEA73451FC1153F005EB6CD /* LingoChatTests.xctest */,
+				0FEA73501FC1153F005EB6CD /* LingoChatUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0FEA73331FC1153F005EB6CD /* LingoChat */ = {
+			isa = PBXGroup;
+			children = (
+				0FEA73341FC1153F005EB6CD /* AppDelegate.swift */,
+				0FEA73361FC1153F005EB6CD /* ViewController.swift */,
+				0FEA73381FC1153F005EB6CD /* Main.storyboard */,
+				0FEA733B1FC1153F005EB6CD /* Assets.xcassets */,
+				0FEA733D1FC1153F005EB6CD /* LaunchScreen.storyboard */,
+				0FEA73401FC1153F005EB6CD /* Info.plist */,
+			);
+			path = LingoChat;
+			sourceTree = "<group>";
+		};
+		0FEA73481FC1153F005EB6CD /* LingoChatTests */ = {
+			isa = PBXGroup;
+			children = (
+				0FEA73491FC1153F005EB6CD /* LingoChatTests.swift */,
+				0FEA734B1FC1153F005EB6CD /* Info.plist */,
+			);
+			path = LingoChatTests;
+			sourceTree = "<group>";
+		};
+		0FEA73531FC1153F005EB6CD /* LingoChatUITests */ = {
+			isa = PBXGroup;
+			children = (
+				0FEA73541FC1153F005EB6CD /* LingoChatUITests.swift */,
+				0FEA73561FC1153F005EB6CD /* Info.plist */,
+			);
+			path = LingoChatUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0FEA73301FC1153F005EB6CD /* LingoChat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0FEA73591FC1153F005EB6CD /* Build configuration list for PBXNativeTarget "LingoChat" */;
+			buildPhases = (
+				0FEA732D1FC1153F005EB6CD /* Sources */,
+				0FEA732E1FC1153F005EB6CD /* Frameworks */,
+				0FEA732F1FC1153F005EB6CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LingoChat;
+			productName = LingoChat;
+			productReference = 0FEA73311FC1153F005EB6CD /* LingoChat.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0FEA73441FC1153F005EB6CD /* LingoChatTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0FEA735C1FC1153F005EB6CD /* Build configuration list for PBXNativeTarget "LingoChatTests" */;
+			buildPhases = (
+				0FEA73411FC1153F005EB6CD /* Sources */,
+				0FEA73421FC1153F005EB6CD /* Frameworks */,
+				0FEA73431FC1153F005EB6CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0FEA73471FC1153F005EB6CD /* PBXTargetDependency */,
+			);
+			name = LingoChatTests;
+			productName = LingoChatTests;
+			productReference = 0FEA73451FC1153F005EB6CD /* LingoChatTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		0FEA734F1FC1153F005EB6CD /* LingoChatUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0FEA735F1FC1153F005EB6CD /* Build configuration list for PBXNativeTarget "LingoChatUITests" */;
+			buildPhases = (
+				0FEA734C1FC1153F005EB6CD /* Sources */,
+				0FEA734D1FC1153F005EB6CD /* Frameworks */,
+				0FEA734E1FC1153F005EB6CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0FEA73521FC1153F005EB6CD /* PBXTargetDependency */,
+			);
+			name = LingoChatUITests;
+			productName = LingoChatUITests;
+			productReference = 0FEA73501FC1153F005EB6CD /* LingoChatUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0FEA73291FC1153F005EB6CD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0910;
+				LastUpgradeCheck = 0910;
+				ORGANIZATIONNAME = "Dorde Ljubinkovic";
+				TargetAttributes = {
+					0FEA73301FC1153F005EB6CD = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+					};
+					0FEA73441FC1153F005EB6CD = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 0FEA73301FC1153F005EB6CD;
+					};
+					0FEA734F1FC1153F005EB6CD = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 0FEA73301FC1153F005EB6CD;
+					};
+				};
+			};
+			buildConfigurationList = 0FEA732C1FC1153F005EB6CD /* Build configuration list for PBXProject "LingoChat" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0FEA73281FC1153F005EB6CD;
+			productRefGroup = 0FEA73321FC1153F005EB6CD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0FEA73301FC1153F005EB6CD /* LingoChat */,
+				0FEA73441FC1153F005EB6CD /* LingoChatTests */,
+				0FEA734F1FC1153F005EB6CD /* LingoChatUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0FEA732F1FC1153F005EB6CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0FEA733F1FC1153F005EB6CD /* LaunchScreen.storyboard in Resources */,
+				0FEA733C1FC1153F005EB6CD /* Assets.xcassets in Resources */,
+				0FEA733A1FC1153F005EB6CD /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0FEA73431FC1153F005EB6CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0FEA734E1FC1153F005EB6CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0FEA732D1FC1153F005EB6CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0FEA73371FC1153F005EB6CD /* ViewController.swift in Sources */,
+				0FEA73351FC1153F005EB6CD /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0FEA73411FC1153F005EB6CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0FEA734A1FC1153F005EB6CD /* LingoChatTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0FEA734C1FC1153F005EB6CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0FEA73551FC1153F005EB6CD /* LingoChatUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0FEA73471FC1153F005EB6CD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0FEA73301FC1153F005EB6CD /* LingoChat */;
+			targetProxy = 0FEA73461FC1153F005EB6CD /* PBXContainerItemProxy */;
+		};
+		0FEA73521FC1153F005EB6CD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0FEA73301FC1153F005EB6CD /* LingoChat */;
+			targetProxy = 0FEA73511FC1153F005EB6CD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		0FEA73381FC1153F005EB6CD /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0FEA73391FC1153F005EB6CD /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		0FEA733D1FC1153F005EB6CD /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0FEA733E1FC1153F005EB6CD /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0FEA73571FC1153F005EB6CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		0FEA73581FC1153F005EB6CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0FEA735A1FC1153F005EB6CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 847623UFJR;
+				INFOPLIST_FILE = LingoChat/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ljubinkovicd.LingoChat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0FEA735B1FC1153F005EB6CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 847623UFJR;
+				INFOPLIST_FILE = LingoChat/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ljubinkovicd.LingoChat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		0FEA735D1FC1153F005EB6CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 847623UFJR;
+				INFOPLIST_FILE = LingoChatTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ljubinkovicd.LingoChatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LingoChat.app/LingoChat";
+			};
+			name = Debug;
+		};
+		0FEA735E1FC1153F005EB6CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 847623UFJR;
+				INFOPLIST_FILE = LingoChatTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ljubinkovicd.LingoChatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LingoChat.app/LingoChat";
+			};
+			name = Release;
+		};
+		0FEA73601FC1153F005EB6CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 847623UFJR;
+				INFOPLIST_FILE = LingoChatUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ljubinkovicd.LingoChatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = LingoChat;
+			};
+			name = Debug;
+		};
+		0FEA73611FC1153F005EB6CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 847623UFJR;
+				INFOPLIST_FILE = LingoChatUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ljubinkovicd.LingoChatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = LingoChat;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0FEA732C1FC1153F005EB6CD /* Build configuration list for PBXProject "LingoChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0FEA73571FC1153F005EB6CD /* Debug */,
+				0FEA73581FC1153F005EB6CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0FEA73591FC1153F005EB6CD /* Build configuration list for PBXNativeTarget "LingoChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0FEA735A1FC1153F005EB6CD /* Debug */,
+				0FEA735B1FC1153F005EB6CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0FEA735C1FC1153F005EB6CD /* Build configuration list for PBXNativeTarget "LingoChatTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0FEA735D1FC1153F005EB6CD /* Debug */,
+				0FEA735E1FC1153F005EB6CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0FEA735F1FC1153F005EB6CD /* Build configuration list for PBXNativeTarget "LingoChatUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0FEA73601FC1153F005EB6CD /* Debug */,
+				0FEA73611FC1153F005EB6CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0FEA73291FC1153F005EB6CD /* Project object */;
+}
