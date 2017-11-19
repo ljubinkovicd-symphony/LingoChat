@@ -10,6 +10,7 @@
 		0F11D6D81FC1335B00933F52 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F11D6D71FC1335B00933F52 /* Extensions.swift */; };
 		0F58B3BF1FC154A200CE3EF0 /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F58B3BE1FC154A200CE3EF0 /* RegisterController.swift */; };
 		0F85075E1FC21E42000708EE /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F85075D1FC21E42000708EE /* ChatLogController.swift */; };
+		0F8507631FC24E1F000708EE /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8507621FC24E1F000708EE /* ChatMessageCell.swift */; };
 		0FEA73351FC1153F005EB6CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA73341FC1153F005EB6CD /* AppDelegate.swift */; };
 		0FEA73371FC1153F005EB6CD /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA73361FC1153F005EB6CD /* LoginController.swift */; };
 		0FEA733A1FC1153F005EB6CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FEA73381FC1153F005EB6CD /* Main.storyboard */; };
@@ -46,6 +47,7 @@
 		0F11D6D71FC1335B00933F52 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0F58B3BE1FC154A200CE3EF0 /* RegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
 		0F85075D1FC21E42000708EE /* ChatLogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
+		0F8507621FC24E1F000708EE /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
 		0FEA73311FC1153F005EB6CD /* LingoChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LingoChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FEA73341FC1153F005EB6CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0FEA73361FC1153F005EB6CD /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -119,6 +121,14 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		0F8507611FC24CF5000708EE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0F8507621FC24E1F000708EE /* ChatMessageCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		0FEA73281FC1153F005EB6CD = {
 			isa = PBXGroup;
 			children = (
@@ -144,6 +154,7 @@
 		0FEA73331FC1153F005EB6CD /* LingoChat */ = {
 			isa = PBXGroup;
 			children = (
+				0F8507611FC24CF5000708EE /* Views */,
 				0F11D6D61FC1334F00933F52 /* Helpers */,
 				0F4667501FC1186E00281DAA /* Controllers */,
 				0FEA73341FC1153F005EB6CD /* AppDelegate.swift */,
@@ -504,6 +515,7 @@
 				0F85075E1FC21E42000708EE /* ChatLogController.swift in Sources */,
 				0F58B3BF1FC154A200CE3EF0 /* RegisterController.swift in Sources */,
 				0FEA73371FC1153F005EB6CD /* LoginController.swift in Sources */,
+				0F8507631FC24E1F000708EE /* ChatMessageCell.swift in Sources */,
 				0F11D6D81FC1335B00933F52 /* Extensions.swift in Sources */,
 				0FEA73351FC1153F005EB6CD /* AppDelegate.swift in Sources */,
 			);
