@@ -92,8 +92,9 @@ class RegisterController: UIViewController {
                 "email" : self.emailTextField.text!,
                 "password" : self.passwordTextField.text!
             ]
-            
-            self.ref.child("users").child((user?.uid)!).updateChildValues(values)
+
+            self.ref.child("users").child(uid).updateChildValues(values)
+//            self.ref.child("users").child((user?.uid)!).updateChildValues(values)
             
 //            self.ref.child("users").child((user?.uid)!).setValue(["email" : self.emailTextField.text!])
         }

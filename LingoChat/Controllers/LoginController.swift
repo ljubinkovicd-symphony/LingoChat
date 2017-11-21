@@ -108,7 +108,6 @@ class LoginController: UIViewController {
     // MARK: - Button Tap Methods
     @objc func createAccountTapped(_ sender: UIButton) {
         let registerController = RegisterController()
-//        loginController.messagesController = self
         present(registerController, animated: true, completion: nil)
     }
     
@@ -120,9 +119,12 @@ class LoginController: UIViewController {
                 print(error.localizedDescription)
                 return
             }
+
+//            let messagesController = MessagesController(style: .plain)
+//            self.present(messagesController, animated: true, completion: nil)
             
-            let messagesController = ChatLogController()
-            self.present(messagesController, animated: true, completion: nil)
+            let messagesController = MessagesController(style: .plain)
+            self.navigationController?.pushViewController(messagesController, animated: true)
         }
     }
     

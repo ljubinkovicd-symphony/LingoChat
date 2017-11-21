@@ -11,10 +11,11 @@
 		0F58B3BF1FC154A200CE3EF0 /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F58B3BE1FC154A200CE3EF0 /* RegisterController.swift */; };
 		0F85075E1FC21E42000708EE /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F85075D1FC21E42000708EE /* ChatLogController.swift */; };
 		0F8507631FC24E1F000708EE /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8507621FC24E1F000708EE /* ChatMessageCell.swift */; };
+		0FD32D711FC4568E00542474 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FD32D701FC4568E00542474 /* Assets.xcassets */; };
+		0FD32D731FC47B8A00542474 /* MessagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD32D721FC47B8A00542474 /* MessagesController.swift */; };
 		0FEA73351FC1153F005EB6CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA73341FC1153F005EB6CD /* AppDelegate.swift */; };
 		0FEA73371FC1153F005EB6CD /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA73361FC1153F005EB6CD /* LoginController.swift */; };
 		0FEA733A1FC1153F005EB6CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FEA73381FC1153F005EB6CD /* Main.storyboard */; };
-		0FEA733C1FC1153F005EB6CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FEA733B1FC1153F005EB6CD /* Assets.xcassets */; };
 		0FEA733F1FC1153F005EB6CD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FEA733D1FC1153F005EB6CD /* LaunchScreen.storyboard */; };
 		0FEA734A1FC1153F005EB6CD /* LingoChatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA73491FC1153F005EB6CD /* LingoChatTests.swift */; };
 		0FEA73551FC1153F005EB6CD /* LingoChatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA73541FC1153F005EB6CD /* LingoChatUITests.swift */; };
@@ -48,11 +49,12 @@
 		0F58B3BE1FC154A200CE3EF0 /* RegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
 		0F85075D1FC21E42000708EE /* ChatLogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
 		0F8507621FC24E1F000708EE /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
+		0FD32D701FC4568E00542474 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0FD32D721FC47B8A00542474 /* MessagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesController.swift; sourceTree = "<group>"; };
 		0FEA73311FC1153F005EB6CD /* LingoChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LingoChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FEA73341FC1153F005EB6CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0FEA73361FC1153F005EB6CD /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		0FEA73391FC1153F005EB6CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		0FEA733B1FC1153F005EB6CD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0FEA733E1FC1153F005EB6CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0FEA73401FC1153F005EB6CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0FEA73451FC1153F005EB6CD /* LingoChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LingoChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +119,7 @@
 				0FEA73361FC1153F005EB6CD /* LoginController.swift */,
 				0F58B3BE1FC154A200CE3EF0 /* RegisterController.swift */,
 				0F85075D1FC21E42000708EE /* ChatLogController.swift */,
+				0FD32D721FC47B8A00542474 /* MessagesController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -159,10 +162,10 @@
 				0F4667501FC1186E00281DAA /* Controllers */,
 				0FEA73341FC1153F005EB6CD /* AppDelegate.swift */,
 				0FEA73381FC1153F005EB6CD /* Main.storyboard */,
-				0FEA733B1FC1153F005EB6CD /* Assets.xcassets */,
 				0FEA733D1FC1153F005EB6CD /* LaunchScreen.storyboard */,
 				0FEA73401FC1153F005EB6CD /* Info.plist */,
 				0FEA73621FC1167E005EB6CD /* GoogleService-Info.plist */,
+				0FD32D701FC4568E00542474 /* Assets.xcassets */,
 			);
 			path = LingoChat;
 			sourceTree = "<group>";
@@ -328,7 +331,7 @@
 			files = (
 				0FEA733F1FC1153F005EB6CD /* LaunchScreen.storyboard in Resources */,
 				0FEA73631FC1167E005EB6CD /* GoogleService-Info.plist in Resources */,
-				0FEA733C1FC1153F005EB6CD /* Assets.xcassets in Resources */,
+				0FD32D711FC4568E00542474 /* Assets.xcassets in Resources */,
 				0FEA733A1FC1153F005EB6CD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -515,6 +518,7 @@
 				0F85075E1FC21E42000708EE /* ChatLogController.swift in Sources */,
 				0F58B3BF1FC154A200CE3EF0 /* RegisterController.swift in Sources */,
 				0FEA73371FC1153F005EB6CD /* LoginController.swift in Sources */,
+				0FD32D731FC47B8A00542474 /* MessagesController.swift in Sources */,
 				0F8507631FC24E1F000708EE /* ChatMessageCell.swift in Sources */,
 				0F11D6D81FC1335B00933F52 /* Extensions.swift in Sources */,
 				0FEA73351FC1153F005EB6CD /* AppDelegate.swift in Sources */,

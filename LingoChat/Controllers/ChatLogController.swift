@@ -7,17 +7,18 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 private let cellId = "cellId"
 
-class ChatLogController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    var colView: UICollectionView!
+    var ref: DatabaseReference!
     
     let textInputContainer: UIView = {
         let uiView = UIView()
         uiView.translatesAutoresizingMaskIntoConstraints = false
-        uiView.backgroundColor = UIColor.green
+        uiView.backgroundColor = UIColor.white
         
         return uiView
     }()
@@ -27,7 +28,6 @@ class ChatLogController: UIViewController, UICollectionViewDataSource, UICollect
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "attachment_icon"), for: .normal)
         button.contentMode = .scaleAspectFit
-        button.backgroundColor = UIColor.green
         
         return button
     }()
@@ -37,7 +37,6 @@ class ChatLogController: UIViewController, UICollectionViewDataSource, UICollect
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Enter your message..."
         textField.borderStyle = .line
-        textField.backgroundColor = UIColor.yellow
         
         return textField
     }()
@@ -47,38 +46,92 @@ class ChatLogController: UIViewController, UICollectionViewDataSource, UICollect
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "send_message_icon"), for: .normal)
         button.contentMode = .scaleAspectFit
-        button.backgroundColor = UIColor.cyan
+        
+        button.addTarget(self, action: #selector(sendMessageTapped), for: .touchUpInside)
         
         return button
     }()
     
+    let separatorLine: UIView = {
+        let uiView = UIView()
+        uiView.translatesAutoresizingMaskIntoConstraints = false
+        uiView.backgroundColor = UIColor.gray
+        
+        return uiView
+    }()
+    
+    // MARK: - Lifecycle Methods
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        messageTextField.becomeFirstResponder()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupChatLayout()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath as IndexPath)
+        ref = Database.database().reference()
         
-        cell.backgroundColor = UIColor.orange
+        navigationItem.title = "CHAT LOG"
+        
+        collectionView?.alwaysBounceVertical = true
+        collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView?.contentInset = UIEdgeInsetsMake(16, 16, 16, 16)
+        collectionView?.frame = CGRect(x: 0, y: 0, width: (collectionView?.frame.width)!, height: (collectionView?.frame.height)! - 56.0) // 56.0 is the height of the text input container
+        collectionView?.backgroundColor = UIColor.white
+        collectionView?.keyboardDismissMode = .interactive
+        
+        setupChatLayout()
+        
+        registerForKeyboardNotifications()
+    }
+    
+    //  MARK: - CollectionView Data Source Delegate Methods
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath as IndexPath) as! ChatMessageCell
+        
+        cell.messageTextView.text = "CAO CAO CAO DJOLE"
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 100)
+    }
+    
+    // MARK: - Button Tap Methods
+    @objc func sendMessageTapped() {
+
+        print("SEND TAPPED")
+//        let values = [
+//            "email" : self.emailTextField.text!,
+//            "password" : self.passwordTextField.text!
+//        ]
+//
+//        self.ref.child("users").child(uid).updateChildValues(values)
+    }
+    
+    var textInputContainerViewBottomAchor: NSLayoutConstraint?
     
     // MARK: - Setup Layout
     fileprivate func setupChatLayout() {
         
         view.addSubview(textInputContainer)
+        view.addSubview(separatorLine)
+        
+        separatorLine.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        separatorLine.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
+        separatorLine.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        separatorLine.bottomAnchor.constraint(equalTo: textInputContainer.topAnchor).isActive = true
         
         textInputContainer.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        textInputContainer.heightAnchor.constraint(equalToConstant: 56).isActive = true
+        textInputContainer.heightAnchor.constraint(equalToConstant: 56.0).isActive = true
         textInputContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        textInputContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        textInputContainerViewBottomAchor = textInputContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        textInputContainerViewBottomAchor?.isActive = true
         
         textInputContainer.addSubview(attachmentButton)
         textInputContainer.addSubview(messageTextField)
@@ -97,131 +150,50 @@ class ChatLogController: UIViewController, UICollectionViewDataSource, UICollect
         sendMessageButton.centerYAnchor.constraint(equalTo: textInputContainer.centerYAnchor).isActive = true
         sendMessageButton.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
         sendMessageButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+    }
+    
+    // MARK: - Handle Keyboard Methods
+    func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(ChatLogController.keyboardWillShow(_:)),
+            name: .UIKeyboardWillShow,
+            object: nil
+        )
         
-        let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 16, right: 10)
-        layout.itemSize = CGSize(width: self.view.frame.width - 20, height: 111)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(ChatLogController.keyboardWillHide(_:)),
+            name: .UIKeyboardWillHide,
+            object: nil
+        )
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
         
-        let colViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height - 56.0) // 56.0 = textInputContainer.height
+        let keyboardFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
+        let keyboardDuration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
         
-        colView = UICollectionView(frame: colViewFrame, collectionViewLayout: layout)
-        colView.delegate   = self
-        colView.dataSource = self
-        colView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-        colView.backgroundColor = UIColor.white
+        textInputContainerViewBottomAchor?.constant = -keyboardFrame!.height
+        UIView.animate(withDuration: keyboardDuration!) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
         
-        self.view.addSubview(colView)
+        let keyboardDuration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
+        
+        textInputContainerViewBottomAchor?.constant = 0.0
+        UIView.animate(withDuration: keyboardDuration!) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    // MARK: - Dismiss Keyboard
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self)
     }
 }
-
-
-//class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-//
-//    let textInputContainer: UIView = {
-//        let uiView = UIView()
-//        uiView.translatesAutoresizingMaskIntoConstraints = false
-//        uiView.backgroundColor = UIColor.red
-//
-//        return uiView
-//    }()
-//
-//    let attachmentButton: UIView = {
-//        let button = UIButton()
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        button.setImage(UIImage(named: "attachment_icon"), for: .normal)
-//        button.contentMode = .scaleAspectFit
-//        button.backgroundColor = UIColor.green
-//
-//        return button
-//    }()
-//
-//    let messageTextField: UITextField = {
-//        let textField = UITextField()
-//        textField.translatesAutoresizingMaskIntoConstraints = false
-//        textField.placeholder = "Enter your message..."
-//        textField.borderStyle = .line
-//        textField.backgroundColor = UIColor.yellow
-//
-//        return textField
-//    }()
-//
-//    let sendMessageButton: UIButton = {
-//        let button = UIButton()
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        button.setImage(UIImage(named: "send_message_icon"), for: .normal)
-//        button.contentMode = .scaleAspectFit
-//        button.backgroundColor = UIColor.cyan
-//
-//        return button
-//    }()
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewLayout())
-//        collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-//        //        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
-//        collectionView?.alwaysBounceVertical = true
-//        collectionView?.backgroundColor = UIColor.white
-//        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-//
-//        collectionView?.keyboardDismissMode = .interactive
-//
-////        setupChatLayout()
-//    }
-//
-//    // MARK: - CollectionViewDelegate Methods
-//    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return 5
-//    }
-//
-//    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
-//        cell.backgroundColor = UIColor.blue
-//
-//        return cell
-//    }
-//
-//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-//        collectionView?.collectionViewLayout.invalidateLayout()
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//
-//        var height: CGFloat = 80
-//        let width = UIScreen.main.bounds.width
-//
-//        return CGSize(width: width, height: height)
-//    }
-//
-//    // MARK: - Setup Layout
-//    fileprivate func setupChatLayout() {
-//
-//        view.addSubview(textInputContainer)
-//
-//        textInputContainer.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-//        textInputContainer.heightAnchor.constraint(equalToConstant: 56).isActive = true
-//        textInputContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        textInputContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-//
-//        textInputContainer.addSubview(attachmentButton)
-//        textInputContainer.addSubview(messageTextField)
-//        textInputContainer.addSubview(sendMessageButton)
-//
-//        attachmentButton.leftAnchor.constraint(equalTo: textInputContainer.leftAnchor, constant: 16.0).isActive = true
-//        attachmentButton.centerYAnchor.constraint(equalTo: textInputContainer.centerYAnchor).isActive = true
-//        attachmentButton.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
-//        attachmentButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
-//
-//        messageTextField.leftAnchor.constraint(equalTo: attachmentButton.rightAnchor, constant: 8.0).isActive = true
-//        messageTextField.rightAnchor.constraint(equalTo: sendMessageButton.leftAnchor, constant: -8.0).isActive = true
-//        messageTextField.centerYAnchor.constraint(equalTo: textInputContainer.centerYAnchor).isActive = true
-//
-//        sendMessageButton.rightAnchor.constraint(equalTo: textInputContainer.rightAnchor, constant: -8.0).isActive = true
-//        sendMessageButton.centerYAnchor.constraint(equalTo: textInputContainer.centerYAnchor).isActive = true
-//        sendMessageButton.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
-//        sendMessageButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
-//    }
-//}
-//
