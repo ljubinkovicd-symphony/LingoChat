@@ -8,12 +8,16 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 
 private let cellId = "cellId"
 
 class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var ref: DatabaseReference!
+    
+    // TESTING PURPOSES
+    var messageCount = 0
     
     let textInputContainer: UIView = {
         let uiView = UIView()
@@ -22,7 +26,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         return uiView
     }()
-
+    
     let attachmentButton: UIView = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -104,14 +108,38 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     
     // MARK: - Button Tap Methods
     @objc func sendMessageTapped() {
-
+        
         print("SEND TAPPED")
-//        let values = [
-//            "email" : self.emailTextField.text!,
-//            "password" : self.passwordTextField.text!
-//        ]
-//
-//        self.ref.child("users").child(uid).updateChildValues(values)
+        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        if messageTextField.text != "" {
+            let chatKey = ref.child("chats").childByAutoId().key
+            
+            let chatInfo = ["last-message": messageTextField.text!,
+                            "timestamp": Int(Date().timeIntervalSince1970)] as [String : Any]
+            
+            let userChats = ["\(uid)": true,
+                             "to-user-id": true] // TODO: Get the other user's uid
+            
+            let message = ["user-id": uid,
+                           "message": messageTextField.text!,
+                           "timestamp": Int(Date().timeIntervalSince1970)] as [String : Any]
+            
+            // TESTING PURPOSES
+            messageCount += 1
+            
+            let messages = ["message-\(messageCount)": message]
+            
+            // Data fan-out: https://firebase.google.com/docs/database/ios/structure-data?authuser=0#fanout
+            let childUpdates = ["/chats/\(chatKey)": chatInfo,
+                                "/user-chats/\(chatKey)": userChats,
+                                "/messages/\(chatKey)": messages]
+            
+            ref.updateChildValues(childUpdates)
+        }
     }
     
     var textInputContainerViewBottomAchor: NSLayoutConstraint?
