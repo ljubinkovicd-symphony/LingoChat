@@ -13,7 +13,6 @@ class ChatMessageCell: UICollectionViewCell {
     let messageTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.text = "SAMPLE TEXT FOR NOW"
         textView.font = UIFont.systemFont(ofSize: 16)
         textView.backgroundColor = UIColor.blue
         textView.textColor = .cyan

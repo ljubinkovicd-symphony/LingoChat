@@ -18,6 +18,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     
     // TESTING PURPOSES
     var messageCount = 0
+    var myMessages: [String] = []
     
     let textInputContainer: UIView = {
         let uiView = UIView()
@@ -91,18 +92,21 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     
     //  MARK: - CollectionView Data Source Delegate Methods
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        
+        return myMessages.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath as IndexPath) as! ChatMessageCell
         
-        cell.messageTextView.text = "CAO CAO CAO DJOLE"
+        cell.messageTextView.text = myMessages[indexPath.row]
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         return CGSize(width: collectionView.frame.width, height: 100)
     }
     
@@ -137,8 +141,15 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             let childUpdates = ["/chats/\(chatKey)": chatInfo,
                                 "/user-chats/\(chatKey)": userChats,
                                 "/messages/\(chatKey)": messages]
+        
+            // USE SET VALUE TO UPDATE DATA AT SPECIFIED LOCATION
             
             ref.updateChildValues(childUpdates)
+            
+            DispatchQueue.main.async {
+                self.myMessages.append(self.messageTextField.text!)
+                self.collectionView?.reloadData()
+            }
         }
     }
     

@@ -75,7 +75,7 @@ class RegisterController: UIViewController {
     
     // MARK: - Button Methods
     @objc func registerTapped() {
-        print(123)
+        
         // Register into Firebase
         Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
             

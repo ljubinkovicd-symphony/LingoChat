@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F10544C1FC8782500EA9E42 /* LCUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F10544B1FC8782500EA9E42 /* LCUser.swift */; };
 		0F11D6D81FC1335B00933F52 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F11D6D71FC1335B00933F52 /* Extensions.swift */; };
+		0F3C3D731FCB28C700DB180D /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3C3D721FCB28C700DB180D /* UserCell.swift */; };
 		0F58B3BF1FC154A200CE3EF0 /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F58B3BE1FC154A200CE3EF0 /* RegisterController.swift */; };
+		0F835FBD1FC56B7800F52AD6 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F835FBC1FC56B7800F52AD6 /* Message.swift */; };
 		0F85075E1FC21E42000708EE /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F85075D1FC21E42000708EE /* ChatLogController.swift */; };
 		0F8507631FC24E1F000708EE /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8507621FC24E1F000708EE /* ChatMessageCell.swift */; };
+		0F9CD7491FCA9A1200F63165 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9CD7481FCA9A1200F63165 /* Constants.swift */; };
 		0FD32D711FC4568E00542474 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FD32D701FC4568E00542474 /* Assets.xcassets */; };
 		0FD32D731FC47B8A00542474 /* MessagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD32D721FC47B8A00542474 /* MessagesController.swift */; };
 		0FEA73351FC1153F005EB6CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA73341FC1153F005EB6CD /* AppDelegate.swift */; };
@@ -45,10 +49,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F10544B1FC8782500EA9E42 /* LCUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCUser.swift; sourceTree = "<group>"; };
 		0F11D6D71FC1335B00933F52 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		0F3C3D721FCB28C700DB180D /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		0F58B3BE1FC154A200CE3EF0 /* RegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
+		0F835FBC1FC56B7800F52AD6 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		0F85075D1FC21E42000708EE /* ChatLogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
 		0F8507621FC24E1F000708EE /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
+		0F9CD7481FCA9A1200F63165 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0FD32D701FC4568E00542474 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0FD32D721FC47B8A00542474 /* MessagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesController.swift; sourceTree = "<group>"; };
 		0FEA73311FC1153F005EB6CD /* LingoChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LingoChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				0F11D6D71FC1335B00933F52 /* Extensions.swift */,
+				0F9CD7481FCA9A1200F63165 /* Constants.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -124,10 +133,20 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		0F835FBB1FC56B4C00F52AD6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0F835FBC1FC56B7800F52AD6 /* Message.swift */,
+				0F10544B1FC8782500EA9E42 /* LCUser.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		0F8507611FC24CF5000708EE /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				0F8507621FC24E1F000708EE /* ChatMessageCell.swift */,
+				0F3C3D721FCB28C700DB180D /* UserCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -157,6 +176,7 @@
 		0FEA73331FC1153F005EB6CD /* LingoChat */ = {
 			isa = PBXGroup;
 			children = (
+				0F835FBB1FC56B4C00F52AD6 /* Models */,
 				0F8507611FC24CF5000708EE /* Views */,
 				0F11D6D61FC1334F00933F52 /* Helpers */,
 				0F4667501FC1186E00281DAA /* Controllers */,
@@ -520,7 +540,11 @@
 				0FEA73371FC1153F005EB6CD /* LoginController.swift in Sources */,
 				0FD32D731FC47B8A00542474 /* MessagesController.swift in Sources */,
 				0F8507631FC24E1F000708EE /* ChatMessageCell.swift in Sources */,
+				0F9CD7491FCA9A1200F63165 /* Constants.swift in Sources */,
+				0F835FBD1FC56B7800F52AD6 /* Message.swift in Sources */,
+				0F10544C1FC8782500EA9E42 /* LCUser.swift in Sources */,
 				0F11D6D81FC1335B00933F52 /* Extensions.swift in Sources */,
+				0F3C3D731FCB28C700DB180D /* UserCell.swift in Sources */,
 				0FEA73351FC1153F005EB6CD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

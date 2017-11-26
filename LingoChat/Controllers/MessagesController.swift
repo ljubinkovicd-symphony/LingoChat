@@ -8,21 +8,26 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 
 class MessagesController: UITableViewController {
     
     private let cellId = "reuseIdentifier"
+    private var ref: DatabaseReference!
+    private var refHandle: DatabaseHandle?
     
+//    private var users: [LCUser]! = []
+    private var users: [DataSnapshot]! = []
+
+    // TEST COUNT
+    private var testCount = 0
+    
+    // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(UserCell.self, forCellReuseIdentifier: cellId)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             title: "Logout",
@@ -30,6 +35,63 @@ class MessagesController: UITableViewController {
             target: self,
             action: #selector(logoutTapped)
         )
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(createNewUserTapped)
+        )
+        
+        ref = Database.database().reference()
+
+        let userID = Auth.auth().currentUser?.uid
+        
+        
+//        ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
+//            // Get user value
+//            let value = snapshot.value as? NSDictionary
+//            let email = value?["email"] as? String ?? ""
+////            let user = User(username: username)
+//
+////            print("USER_EMAIL: \(email)")
+//
+//            // ...
+//        }) { (error) in
+//            print(error.localizedDescription)
+//        }
+
+        // TODO UNCOMMENT
+//        ref.child("users").child(userID!).observe(DataEventType.value, with: { (snapshot) in
+//            let userDictionary = snapshot.value as? NSDictionary
+//
+//            let email = userDictionary?["email"] as? String ?? ""
+//            let password = userDictionary?["password"] as? String ?? ""
+//
+//            print("\nUSER_EMAIL: \(email)\nUSER_PASSWORD: \(password)")
+//        })
+        
+        refHandle = ref.child("users").observe(.childAdded, with: { [weak self] (snapshot) in
+            
+            guard let strongSelf = self else { return }
+            
+            strongSelf.users.append(snapshot)
+            strongSelf.tableView.insertRows(at: [IndexPath(row: strongSelf.users.count - 1, section: 0)], with: .automatic)
+            
+            // ____________________________________________________________________________________________________________
+            let userDictionary = snapshot.value as? NSDictionary
+            
+            print("\n")
+            
+            for (key, value) in userDictionary! {
+                print("\(key) -> \(value)")
+            }
+        })
+        
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+        
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     // MARK: - Button Tap Methods
@@ -45,23 +107,63 @@ class MessagesController: UITableViewController {
         }
     }
     
+    @objc func createNewUserTapped() {
+        
+        testCount += 1
+        
+        let testUserEmail = "test_user\(testCount)@email.com"
+        let testUserPassword = "123456"
+        
+        // Register into Firebase
+        Auth.auth().createUser(withEmail: testUserEmail, password: testUserPassword) { (user, error) in
+            
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            guard let uid = user?.uid else {
+                return
+            }
+            
+            let values = [
+                "email" : testUserEmail,
+                "password" : testUserPassword
+            ]
+            
+            self.ref.child("users").child(uid).updateChildValues(values)
+        }
+    }
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 15
+        return users.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
+        // Dequeue Cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! UserCell
         
-        cell.textLabel?.text = "TEBRAAA"
-        cell.imageView?.image = UIImage(named: "attachment_icon")
+        // Unpack user info from Firebase DataSnapshot
+        let userSnapshot = self.users[indexPath.row]
+        
+        guard let user = userSnapshot.value as? [String : Any] else { return cell }
+        
+        let email = user[Constants.UserFields.email] as? String ?? ""
+        let password = user[Constants.UserFields.password] as? String ?? ""
+        
+//        cell.textLabel?.text = "UserEmail: \(email)"
+//        cell.detailTextLabel?.text = "UserPwd: \(password)"
+//        cell.imageView?.image = UIImage(named: "attachment_icon")
+        
+        cell.userImageView.image = UIImage(named: "attachment_icon")
+        cell.userEmailLabel.text = "UserEmail: \(email)"
+        cell.userPasswordLabel.text = "UserPwd: \(password)"
         
         return cell
     }
@@ -73,6 +175,13 @@ class MessagesController: UITableViewController {
         
         let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
         self.navigationController?.pushViewController(chatLogController, animated: true)
+    }
+    
+    // MARK: - Deinitialize
+    deinit {
+        if let refHandle = refHandle {
+            self.ref.child("users").removeObserver(withHandle: refHandle)
+        }
     }
     
     /*
