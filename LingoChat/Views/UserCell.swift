@@ -10,49 +10,68 @@ import UIKit
 
 class UserCell: UITableViewCell {
 
-    let userImageView = UIImageView()
-    let userEmailLabel = UILabel()
-    let userPasswordLabel = UILabel()
+    let userImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.backgroundColor = UIColor.blue
+        imageView.layer.cornerRadius = 32.0 // Half of the imageView height
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        
+        return imageView
+    }()
+    
+    let userEmailLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 16.0)
+        label.textColor = UIColor.darkGray
+        
+        return label
+    }()
+    
+    let userMessageDateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 12.0)
+        label.textColor = UIColor.lightGray
+        
+        return label
+    }()
+    
+    let userPasswordLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 12.0)
+        label.textColor = UIColor.lightGray
+        
+        return label
+    }()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
-        userImageView.backgroundColor = UIColor.blue
-        
-        userImageView.translatesAutoresizingMaskIntoConstraints = false
-        userEmailLabel.translatesAutoresizingMaskIntoConstraints = false
-        userPasswordLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         addSubview(userImageView)
         addSubview(userEmailLabel)
+        addSubview(userMessageDateLabel)
         addSubview(userPasswordLabel)
         
-        // Create views dictionary for visual format
-        let viewsDict = [
-            "userImage": userImageView,
-            "userEmail": userEmailLabel,
-            "userPassword": userPasswordLabel
-            ] as [String : Any]
+        userImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        userImageView.widthAnchor.constraint(equalToConstant: 64.0).isActive = true
+        userImageView.heightAnchor.constraint(equalToConstant: 64.0).isActive = true
+        userImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0).isActive = true
         
-        let verticalFormatString = "V:|-[userImage]-[userEmail]-[userPassword]-|"
-        let horizontalFormatString = "H:|-[userImage]-[userEmail]-[userPassword]-|"
+        userEmailLabel.topAnchor.constraint(equalTo: userImageView.topAnchor).isActive = true
+        userEmailLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 8.0).isActive = true
+        userEmailLabel.trailingAnchor.constraint(equalTo: userMessageDateLabel.leadingAnchor, constant: -8.0).isActive = true
         
-        let verticalConstraints = NSLayoutConstraint.constraints(
-            withVisualFormat: verticalFormatString,
-            options: [],
-            metrics: nil,
-            views: viewsDict
-        )
+        userMessageDateLabel.bottomAnchor.constraint(equalTo: userEmailLabel.bottomAnchor).isActive = true
+        userMessageDateLabel.leadingAnchor.constraint(equalTo: userEmailLabel.trailingAnchor, constant: 8.0).isActive = true
+        userMessageDateLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
         
-        let horizontalConstraints = NSLayoutConstraint.constraints(
-            withVisualFormat: horizontalFormatString,
-            options: [],
-            metrics: nil,
-            views: viewsDict
-        )
-        
-        NSLayoutConstraint.activate(verticalConstraints)
-        NSLayoutConstraint.activate(horizontalConstraints)
+        userPasswordLabel.bottomAnchor.constraint(equalTo: userImageView.bottomAnchor).isActive = true
+        userPasswordLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 8.0).isActive = true
+        userPasswordLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

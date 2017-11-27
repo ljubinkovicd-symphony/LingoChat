@@ -11,7 +11,9 @@ import Foundation
 struct Constants {
  
     struct UserFields {
+        static let uid = "uid"
         static let email = "email"
         static let password = "password"
+        static let profileImageUrl = "profileImageUrl"
     }
 }

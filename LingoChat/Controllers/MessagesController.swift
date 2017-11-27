@@ -26,6 +26,8 @@ class MessagesController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.separatorStyle = .none
+        
 //        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         tableView.register(UserCell.self, forCellReuseIdentifier: cellId)
         
@@ -80,11 +82,11 @@ class MessagesController: UITableViewController {
             // ____________________________________________________________________________________________________________
             let userDictionary = snapshot.value as? NSDictionary
             
-            print("\n")
-            
-            for (key, value) in userDictionary! {
-                print("\(key) -> \(value)")
-            }
+//            print("\n")
+//
+//            for (key, value) in userDictionary! {
+//                print("\(key) -> \(value)")
+//            }
         })
         
         // Uncomment the following line to preserve selection between presentations
@@ -156,13 +158,16 @@ class MessagesController: UITableViewController {
         
         let email = user[Constants.UserFields.email] as? String ?? ""
         let password = user[Constants.UserFields.password] as? String ?? ""
+        let profileImageUrl = user[Constants.UserFields.profileImageUrl] as? String
         
-//        cell.textLabel?.text = "UserEmail: \(email)"
-//        cell.detailTextLabel?.text = "UserPwd: \(password)"
-//        cell.imageView?.image = UIImage(named: "attachment_icon")
+        print("\n\n\n\(userSnapshot.key) -> \(email)")
         
-        cell.userImageView.image = UIImage(named: "attachment_icon")
+        if let profileImageUrl = profileImageUrl {
+            cell.userImageView.loadImageUsingCache(with: profileImageUrl)
+        }
+        
         cell.userEmailLabel.text = "UserEmail: \(email)"
+        cell.userMessageDateLabel.text = Date().description
         cell.userPasswordLabel.text = "UserPwd: \(password)"
         
         return cell
@@ -173,8 +178,16 @@ class MessagesController: UITableViewController {
         //        let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
         //        self.present(chatLogController, animated: true, completion: nil)
         
+        let user = users[(indexPath as NSIndexPath).row]
+        
         let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
+        chatLogController.userSnapshot = user
+        
         self.navigationController?.pushViewController(chatLogController, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 88.0
     }
     
     // MARK: - Deinitialize
@@ -216,16 +229,6 @@ class MessagesController: UITableViewController {
      override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
      // Return false if you do not want the item to be re-orderable.
      return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
      }
      */
     

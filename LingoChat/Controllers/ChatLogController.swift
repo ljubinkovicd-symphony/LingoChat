@@ -15,6 +15,7 @@ private let cellId = "cellId"
 class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var ref: DatabaseReference!
+    var userSnapshot: DataSnapshot!
     
     // TESTING PURPOSES
     var messageCount = 0
@@ -76,7 +77,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         ref = Database.database().reference()
         
-        navigationItem.title = "CHAT LOG"
+        navigationItem.title = "\(userSnapshot.key)"
         
         collectionView?.alwaysBounceVertical = true
         collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
@@ -125,8 +126,11 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             let chatInfo = ["last-message": messageTextField.text!,
                             "timestamp": Int(Date().timeIntervalSince1970)] as [String : Any]
             
+            let toId = userSnapshot.key // this is the selected user row
+            
+            // uid = fromId (sender), toId = receiver
             let userChats = ["\(uid)": true,
-                             "to-user-id": true] // TODO: Get the other user's uid
+                             "\(toId)": true]
             
             let message = ["user-id": uid,
                            "message": messageTextField.text!,
