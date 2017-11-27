@@ -18,7 +18,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     var userSnapshot: DataSnapshot!
     
     // TESTING PURPOSES
-    var messageCount = 0
+//    var messageCount = 0
     var myMessages: [String] = []
     
     let textInputContainer: UIView = {
@@ -129,17 +129,25 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             let toId = userSnapshot.key // this is the selected user row
             
             // uid = fromId (sender), toId = receiver
-            let userChats = ["\(uid)": true,
+            var userChats: [String : Bool] = [:]
+            
+            if uid != toId {
+                userChats = ["\(uid)": true,
                              "\(toId)": true]
+            } else {
+                userChats = ["\(uid)": true] // Chatting with yourself...
+            }
             
             let message = ["user-id": uid,
                            "message": messageTextField.text!,
                            "timestamp": Int(Date().timeIntervalSince1970)] as [String : Any]
             
             // TESTING PURPOSES
-            messageCount += 1
+//            messageCount += 1
             
-            let messages = ["message-\(messageCount)": message]
+//            let messages = ["message-\(messageCount)": message]
+            let messageId = ref.childByAutoId().key
+            let messages = ["\(messageId)": message]
             
             // Data fan-out: https://firebase.google.com/docs/database/ios/structure-data?authuser=0#fanout
             let childUpdates = ["/chats/\(chatKey)": chatInfo,

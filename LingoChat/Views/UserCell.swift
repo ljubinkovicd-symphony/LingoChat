@@ -48,6 +48,14 @@ class UserCell: UITableViewCell {
         return label
     }()
     
+    let separatorView: UIView = {
+        let uiView = UIView()
+        uiView.translatesAutoresizingMaskIntoConstraints = false
+        uiView.backgroundColor = UIColor.red
+        
+        return uiView
+    }()
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
@@ -55,6 +63,7 @@ class UserCell: UITableViewCell {
         addSubview(userEmailLabel)
         addSubview(userMessageDateLabel)
         addSubview(userPasswordLabel)
+        addSubview(separatorView)
         
         userImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         userImageView.widthAnchor.constraint(equalToConstant: 64.0).isActive = true
@@ -72,12 +81,18 @@ class UserCell: UITableViewCell {
         userPasswordLabel.bottomAnchor.constraint(equalTo: userImageView.bottomAnchor).isActive = true
         userPasswordLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 8.0).isActive = true
         userPasswordLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
+        
+        separatorView.widthAnchor.constraint(equalToConstant: self.frame.size.width - userImageView.frame.width).isActive = true
+        separatorView.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
+        separatorView.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor).isActive = true
+        separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
+        separatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-//
+
 //    override func setSelected(_ selected: Bool, animated: Bool) {
 //        super.setSelected(selected, animated: animated)
 //

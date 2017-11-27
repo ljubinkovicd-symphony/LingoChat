@@ -80,7 +80,7 @@ class MessagesController: UITableViewController {
             strongSelf.tableView.insertRows(at: [IndexPath(row: strongSelf.users.count - 1, section: 0)], with: .automatic)
             
             // ____________________________________________________________________________________________________________
-            let userDictionary = snapshot.value as? NSDictionary
+//            let userDictionary = snapshot.value as? NSDictionary
             
 //            print("\n")
 //

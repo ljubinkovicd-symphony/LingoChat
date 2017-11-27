@@ -204,7 +204,6 @@ class RegisterController: UIViewController {
     }
 }
 
-
 // MARK: - UINavigationControllerDelegate Extension
 extension RegisterController: UINavigationControllerDelegate {}
 
