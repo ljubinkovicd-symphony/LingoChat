@@ -18,7 +18,6 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     var userSnapshot: DataSnapshot!
     
     // TESTING PURPOSES
-//    var messageCount = 0
     var myMessages: [String] = []
     
     let textInputContainer: UIView = {
@@ -77,7 +76,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         ref = Database.database().reference()
         
-        navigationItem.title = "\(userSnapshot.key)"
+        navigationItem.title = "\(userSnapshot.key)" // Tapped user row's uid
         
         collectionView?.alwaysBounceVertical = true
         collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
@@ -114,22 +113,15 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     // MARK: - Button Tap Methods
     @objc func sendMessageTapped() {
         
-        print("SEND TAPPED")
-        
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
         
         if messageTextField.text != "" {
-            let chatKey = ref.child("chats").childByAutoId().key
-            
-            let chatInfo = ["last-message": messageTextField.text!,
-                            "timestamp": Int(Date().timeIntervalSince1970)] as [String : Any]
+            // uid = fromId (sender), toId = receiver
+            var userChats: NSDictionary = [:]
             
             let toId = userSnapshot.key // this is the selected user row
-            
-            // uid = fromId (sender), toId = receiver
-            var userChats: [String : Bool] = [:]
             
             if uid != toId {
                 userChats = ["\(uid)": true,
@@ -138,30 +130,119 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
                 userChats = ["\(uid)": true] // Chatting with yourself...
             }
             
-            let message = ["user-id": uid,
-                           "message": messageTextField.text!,
-                           "timestamp": Int(Date().timeIntervalSince1970)] as [String : Any]
+            ref.child("user-chats").observeSingleEvent(of: .value) { (snapshot) in
+
+                for child in snapshot.children {
+
+                    let childSnapshot = child as? DataSnapshot
+                    let rootKey = childSnapshot!.key
+
+                    let userChatsDictionary = snapshot.value as? NSDictionary
+                    let smt = userChatsDictionary![rootKey] as? NSDictionary
+
+                    if NSDictionary(dictionary: smt!).isEqual(userChats) {
+                        print("ROOT: \(rootKey) -> \(smt!.description)")
+
+                        let chatKey = self.ref.child("chats").child(rootKey).key
+
+                        // Update chats/chatId/chatObject
+                        let chatIdRef = self.ref.child("chats/\(chatKey)")
+                        print("CHAT_ID_REF: \(chatIdRef)")
+
+                        // Update messages/chatId/messageId/messageObject
+                        let messagesChatIdRef = self.ref.child("messages").child(chatKey).childByAutoId()
+
+                        // These 2 are the same
+//                        print("MY_CHAT_KEY: \(chatKey)")
+//                        print("ROOT_KEY: \(rootKey)")
+
+                        let chatInfo = ["last-message": self.messageTextField.text!,
+                                        "timestamp": Int(Date().timeIntervalSince1970)] as [String : Any]
+//
+                        chatIdRef.updateChildValues(chatInfo)
+
+                        let message = ["user-id": uid,
+                                       "message": self.messageTextField.text!,
+                                       "timestamp": Int(Date().timeIntervalSince1970)] as [String : Any]
+
+                        messagesChatIdRef.setValue(message)
+//                        print(messagesChatIdRef.key)
+//                        let messages = ["\(messageId)": message]
+
+                        // Data fan-out: https://firebase.google.com/docs/database/ios/structure-data?authuser=0#fanout
+//                        let childUpdates = ["/chats/\(chatKey)": chatInfo,
+//                                            "/user-chats/\(chatKey)": userChats,
+//                                            "/messages/\(chatKey)": messages] as [String : Any]
+
+                        // USE SET VALUE TO UPDATE DATA AT SPECIFIED LOCATION
+
+//                        self.ref.updateChildValues(childUpdates)
+                        
+                        DispatchQueue.main.async {
+                            self.myMessages.append(self.messageTextField.text!)
+                            self.collectionView?.reloadData()
+                        }
+                        
+                        return
+                    }
+                } // end of for loop...
+                
+                
+                let chatKey = self.ref.child("chats").childByAutoId().key
+                
+                let chatInfo = ["last-message": self.messageTextField.text!,
+                                "timestamp": Int(Date().timeIntervalSince1970)] as [String : Any]
+                
+                let message = ["user-id": uid,
+                               "message": self.messageTextField.text!,
+                               "timestamp": Int(Date().timeIntervalSince1970)] as [String : Any]
+                
+                let messageId = self.ref.childByAutoId().key
+                let messages = ["\(messageId)": message]
+                
+                // Data fan-out: https://firebase.google.com/docs/database/ios/structure-data?authuser=0#fanout
+                let childUpdates = ["/chats/\(chatKey)": chatInfo,
+                                    "/user-chats/\(chatKey)": userChats,
+                                    "/messages/\(chatKey)": messages] as [String : Any]
+                
+                // USE SET VALUE TO UPDATE DATA AT SPECIFIED LOCATION
+                
+                self.ref.updateChildValues(childUpdates)
+                
+                DispatchQueue.main.async {
+                    self.myMessages.append(self.messageTextField.text!)
+                    self.collectionView?.reloadData()
+                }
+                
+            } // end of ref.child("user-chats")...
             
-            // TESTING PURPOSES
-//            messageCount += 1
-            
-//            let messages = ["message-\(messageCount)": message]
-            let messageId = ref.childByAutoId().key
-            let messages = ["\(messageId)": message]
-            
-            // Data fan-out: https://firebase.google.com/docs/database/ios/structure-data?authuser=0#fanout
-            let childUpdates = ["/chats/\(chatKey)": chatInfo,
-                                "/user-chats/\(chatKey)": userChats,
-                                "/messages/\(chatKey)": messages]
-        
-            // USE SET VALUE TO UPDATE DATA AT SPECIFIED LOCATION
-            
-            ref.updateChildValues(childUpdates)
-            
-            DispatchQueue.main.async {
-                self.myMessages.append(self.messageTextField.text!)
-                self.collectionView?.reloadData()
-            }
+            // UPDATE THIS PART____________________________________________________________________________________________________________
+//            let chatKey = self.ref.child("chats").childByAutoId().key
+//
+//            let chatInfo = ["last-message": self.messageTextField.text!,
+//                            "timestamp": Int(Date().timeIntervalSince1970)] as [String : Any]
+//
+//            let message = ["user-id": uid,
+//                           "message": self.messageTextField.text!,
+//                           "timestamp": Int(Date().timeIntervalSince1970)] as [String : Any]
+//
+//            let messageId = self.ref.childByAutoId().key
+//            let messages = ["\(messageId)": message]
+//
+//            // Data fan-out: https://firebase.google.com/docs/database/ios/structure-data?authuser=0#fanout
+//            let childUpdates = ["/chats/\(chatKey)": chatInfo,
+//                                "/user-chats/\(chatKey)": userChats,
+//                                "/messages/\(chatKey)": messages] as [String : Any]
+//
+//            // USE SET VALUE TO UPDATE DATA AT SPECIFIED LOCATION
+//
+//            self.ref.updateChildValues(childUpdates)
+//
+//            DispatchQueue.main.async {
+//                self.myMessages.append(self.messageTextField.text!)
+//                self.collectionView?.reloadData()
+//            }
+            // ____________________________________________________________________________________________________________
         }
     }
     

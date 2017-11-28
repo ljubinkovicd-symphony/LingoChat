@@ -46,7 +46,7 @@ class MessagesController: UITableViewController {
         
         ref = Database.database().reference()
 
-        let userID = Auth.auth().currentUser?.uid
+//        let userID = Auth.auth().currentUser?.uid
         
         
 //        ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
