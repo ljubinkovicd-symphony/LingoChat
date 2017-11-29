@@ -28,7 +28,6 @@ class MessagesController: UITableViewController {
         
         tableView.separatorStyle = .none
         
-//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         tableView.register(UserCell.self, forCellReuseIdentifier: cellId)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -45,49 +44,68 @@ class MessagesController: UITableViewController {
         )
         
         ref = Database.database().reference()
-
-//        let userID = Auth.auth().currentUser?.uid
-        
-        
-//        ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
-//            // Get user value
-//            let value = snapshot.value as? NSDictionary
-//            let email = value?["email"] as? String ?? ""
-////            let user = User(username: username)
-//
-////            print("USER_EMAIL: \(email)")
-//
-//            // ...
-//        }) { (error) in
-//            print(error.localizedDescription)
-//        }
-
-        // TODO UNCOMMENT
-//        ref.child("users").child(userID!).observe(DataEventType.value, with: { (snapshot) in
-//            let userDictionary = snapshot.value as? NSDictionary
-//
-//            let email = userDictionary?["email"] as? String ?? ""
-//            let password = userDictionary?["password"] as? String ?? ""
-//
-//            print("\nUSER_EMAIL: \(email)\nUSER_PASSWORD: \(password)")
-//        })
         
         refHandle = ref.child("users").observe(.childAdded, with: { [weak self] (snapshot) in
             
             guard let strongSelf = self else { return }
             
+            print("OTHER_USER: \(snapshot.key)") // this is the user uid (read from the database)
+            print("CURRENTLY_LOGGED_IN_USER: \(Auth.auth().currentUser!.uid)") // This is the currently logged in user's uid
+            
+            
+            
             strongSelf.users.append(snapshot)
             strongSelf.tableView.insertRows(at: [IndexPath(row: strongSelf.users.count - 1, section: 0)], with: .automatic)
-            
-            // ____________________________________________________________________________________________________________
-//            let userDictionary = snapshot.value as? NSDictionary
-            
-//            print("\n")
-//
-//            for (key, value) in userDictionary! {
-//                print("\(key) -> \(value)")
-//            }
         })
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        // TODO: Get latest message between users
+//        ref.child("user-chats").observeSingleEvent(of: .value, with: { (snapshot) in
+//
+//            for child in snapshot.children {
+//
+//                let childSnapshot = child as? DataSnapshot
+//
+//                print("USER_CHAT_KEY: \(childSnapshot!.value!)")
+//            }
+//        })
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -160,7 +178,7 @@ class MessagesController: UITableViewController {
         let password = user[Constants.UserFields.password] as? String ?? ""
         let profileImageUrl = user[Constants.UserFields.profileImageUrl] as? String
         
-        print("\n\n\n\(userSnapshot.key) -> \(email)")
+//        print("\n\n\n\(userSnapshot.key) -> \(email)")
         
         if let profileImageUrl = profileImageUrl {
             cell.userImageView.loadImageUsingCache(with: profileImageUrl)
@@ -196,40 +214,4 @@ class MessagesController: UITableViewController {
             self.ref.child("users").removeObserver(withHandle: refHandle)
         }
     }
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
 }

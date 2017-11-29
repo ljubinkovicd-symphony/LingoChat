@@ -82,9 +82,10 @@ class UserCell: UITableViewCell {
         userPasswordLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 8.0).isActive = true
         userPasswordLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
         
-        separatorView.widthAnchor.constraint(equalToConstant: self.frame.size.width - 64.0 - 16.0).isActive = true // 64.0 is the width of the userImageView (+ 16.0 is the to take in account the horizontal constraint (userImageView leadingConstraint of 8.0 points, and 8.0 on the separatorView trailingConstraint) )
+//        separatorView.widthAnchor.constraint(equalToConstant: self.frame.size.width).isActive = true
         separatorView.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
         separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
+        separatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 64.0 + 8.0).isActive = true // 64 is the imageView width and 8 is the left constraint of the imageView
         separatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
     
