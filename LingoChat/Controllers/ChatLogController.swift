@@ -433,10 +433,13 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         let keyboardFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
         let keyboardDuration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
         
+        if myMessages.count > 0 {
+           collectionView?.scrollToItem(at: IndexPath.init(item: self.myMessages.count - 1, section: 0) , at: .bottom, animated: true)
+        }
+        
         textInputContainerViewBottomAchor?.constant = -keyboardFrame!.height
         UIView.animate(withDuration: keyboardDuration!) {
             self.view.layoutIfNeeded()
-            self.collectionView?.scrollToItem(at: IndexPath.init(item: self.myMessages.count - 1, section: 0) , at: .bottom, animated: true)
         }
     }
     
