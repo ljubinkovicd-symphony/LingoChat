@@ -22,6 +22,8 @@ class MessagesController: UITableViewController {
     // TEST COUNT
     private var testCount = 0
     
+    private var currentUserProfileImageUrl: String?
+    
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,10 +54,10 @@ class MessagesController: UITableViewController {
             print("OTHER_USER: \(snapshot.key)") // this is the user uid (read from the database)
             print("CURRENTLY_LOGGED_IN_USER: \(Auth.auth().currentUser!.uid)") // This is the currently logged in user's uid
             
-            
-            
-            strongSelf.users.append(snapshot)
-            strongSelf.tableView.insertRows(at: [IndexPath(row: strongSelf.users.count - 1, section: 0)], with: .automatic)
+            DispatchQueue.main.async {
+                strongSelf.users.append(snapshot)
+                strongSelf.tableView.insertRows(at: [IndexPath(row: strongSelf.users.count - 1, section: 0)], with: .automatic)
+            }
         })
         
         
@@ -172,6 +174,17 @@ class MessagesController: UITableViewController {
         // Unpack user info from Firebase DataSnapshot
         let userSnapshot = self.users[indexPath.row]
         
+        if userSnapshot.key == Auth.auth().currentUser?.uid {
+            
+            guard let currentUser = userSnapshot.value as? [String : Any] else { return cell }
+            
+            if let profileImgUrl = currentUser[Constants.UserFields.profileImageUrl] as? String {
+                currentUserProfileImageUrl = profileImgUrl
+            }
+        }
+        
+//        print("USER_SNAPSHOT_KEY: \(String(describing: userSnapshot.key))")
+        
         guard let user = userSnapshot.value as? [String : Any] else { return cell }
         
         let email = user[Constants.UserFields.email] as? String ?? ""
@@ -196,10 +209,11 @@ class MessagesController: UITableViewController {
         //        let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
         //        self.present(chatLogController, animated: true, completion: nil)
         
-        let user = users[(indexPath as NSIndexPath).row]
+        let user = self.users[(indexPath as NSIndexPath).row]
         
         let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
         chatLogController.userSnapshot = user
+        chatLogController.currentlyLoggedInUserProfileImageUrl = currentUserProfileImageUrl
         
         self.navigationController?.pushViewController(chatLogController, animated: true)
     }
