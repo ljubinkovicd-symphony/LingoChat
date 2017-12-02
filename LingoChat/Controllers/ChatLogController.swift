@@ -377,6 +377,14 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     fileprivate func setupChatLayout() {
+
+        UIGraphicsBeginImageContext((self.collectionView?.frame.size)!)
+        UIImage(named: "chat_log_background")?.draw(in: (self.collectionView?.bounds)!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        self.collectionView?.backgroundColor = UIColor.clear
+        self.view.backgroundColor = UIColor.init(patternImage: image!)
         
         view.addSubview(textInputContainer)
         view.addSubview(separatorLine)
