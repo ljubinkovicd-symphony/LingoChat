@@ -16,5 +16,10 @@ class LCUser {
     var email: String?
     var password: String?
     var timestamp: Int?
+    var profileImageUrl: String?
     
+    init(email: String?, profileImageUrl: String?) {
+        self.email = email
+        self.profileImageUrl = profileImageUrl
+    }
 }

@@ -12,13 +12,47 @@ import FirebaseDatabase
 
 class MessagesController: UITableViewController {
     
+    let currentUserTitleContainer: UIView = {
+        let uiView = UIView()
+        uiView.translatesAutoresizingMaskIntoConstraints = false
+//        uiView.backgroundColor = UIColor(rgb: 0xDCF8C6) // Light soft green color (HEX: #DCF8C6)
+        uiView.backgroundColor = UIColor.clear // Light soft green color (HEX: #DCF8C6)
+        uiView.layer.cornerRadius = 16.0
+        uiView.layer.masksToBounds = true
+        
+        return uiView
+    }()
+    
+    let profileImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(named: "attachment_icon")
+        imageView.backgroundColor = UIColor.red
+        imageView.layer.cornerRadius = 16.0 // half of the imageView.height
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        
+        return imageView
+    }()
+    
+    let userNameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "SOME USER"
+        
+        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.adjustsFontForContentSizeCategory = true
+        
+        return label
+    }()
+    
     private let cellId = "reuseIdentifier"
     private var ref: DatabaseReference!
     private var refHandle: DatabaseHandle?
     
-//    private var users: [LCUser]! = []
+    //    private var users: [LCUser]! = []
     private var users: [DataSnapshot]! = []
-
+    
     // TEST COUNT
     private var testCount = 0
     
@@ -28,24 +62,39 @@ class MessagesController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.separatorStyle = .none
-        
-        tableView.register(UserCell.self, forCellReuseIdentifier: cellId)
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: "Logout",
-            style: .plain,
-            target: self,
-            action: #selector(logoutTapped)
-        )
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .add,
-            target: self,
-            action: #selector(createNewUserTapped)
-        )
-        
         ref = Database.database().reference()
+        
+        
+        let currentUser = Auth.auth().currentUser
+        
+        if let user = currentUser {
+            
+            print(user.uid)
+            
+            ref.child("users").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+
+//                print(snapshot)
+                
+                guard let userDict = snapshot.value as? NSDictionary else { return }
+//
+                let email = userDict[Constants.UserFields.email] as? String ?? ""
+                let profileImageUrl = userDict[Constants.UserFields.profileImageUrl] as? String ?? "attachment_icon"
+                print(email)
+                print(profileImageUrl)
+                
+                let lcUser = LCUser(email: email, profileImageUrl: profileImageUrl)
+                
+                DispatchQueue.main.async {
+                    self.setupNavigationBar(with: lcUser)
+                }
+            })
+            
+        } else {
+            return
+        }
+        
+        tableView.separatorStyle = .none
+        tableView.register(UserCell.self, forCellReuseIdentifier: cellId)
         
         refHandle = ref.child("users").observe(.childAdded, with: { [weak self] (snapshot) in
             
@@ -114,6 +163,46 @@ class MessagesController: UITableViewController {
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    // MARK: - Setup Layout Methods
+    fileprivate func setupNavigationBar(with user: LCUser) {
+        
+        navigationItem.titleView = currentUserTitleContainer
+        currentUserTitleContainer.addSubview(profileImageView)
+        currentUserTitleContainer.addSubview(userNameLabel)
+        
+        // Place user information into views
+        profileImageView.loadImageUsingCache(with: user.profileImageUrl!)
+        userNameLabel.text = user.email!
+        
+        currentUserTitleContainer.widthAnchor.constraint(equalToConstant: view .frame.size.width / 2.0).isActive = true
+        currentUserTitleContainer.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+        currentUserTitleContainer.centerXAnchor.constraint(equalTo: navigationItem.titleView!.centerXAnchor).isActive = true
+        currentUserTitleContainer.centerYAnchor.constraint(equalTo: navigationItem.titleView!.centerYAnchor).isActive = true
+        
+        profileImageView.widthAnchor.constraint(equalToConstant: 32.0).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
+        profileImageView.centerYAnchor.constraint(equalTo: currentUserTitleContainer.centerYAnchor).isActive = true
+        profileImageView.leadingAnchor.constraint(equalTo: currentUserTitleContainer.leadingAnchor, constant: 8.0).isActive = true
+        
+        userNameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 8.0).isActive = true
+        userNameLabel.trailingAnchor.constraint(equalTo: currentUserTitleContainer.trailingAnchor, constant: -8.0).isActive = true
+        userNameLabel.centerYAnchor.constraint(equalTo: currentUserTitleContainer.centerYAnchor).isActive = true
+        
+        // Setup bar buttons inside navigation bar
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: "Logout",
+            style: .plain,
+            target: self,
+            action: #selector(logoutTapped)
+        )
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(createNewUserTapped)
+        )
     }
     
     // MARK: - Button Tap Methods

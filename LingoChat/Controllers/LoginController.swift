@@ -14,8 +14,11 @@ class LoginController: UIViewController {
     let loginOrRegisterLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false // disables conflict with constraints
-        label.text = "Login or Create a New Account..."
+        label.text = "Login or Create a New Account"
         label.textAlignment = .center
+        
+        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -25,8 +28,13 @@ class LoginController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Email"
         textField.borderStyle = .line
-        textField.layer.cornerRadius = 8.0
-        textField.layer.masksToBounds = true
+        
+        textField.font = UIFont.preferredFont(forTextStyle: .title2)
+        textField.adjustsFontForContentSizeCategory = true
+        
+        let paddingView: UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
+        textField.leftView = paddingView
+        textField.leftViewMode = .always
         
         textField.text = "test@user.com"
         
@@ -38,8 +46,13 @@ class LoginController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Password"
         textField.borderStyle = .line
-        textField.layer.cornerRadius = 8.0
-        textField.layer.masksToBounds = true
+//        textField.isSecureTextEntry = true
+        textField.font = UIFont.preferredFont(forTextStyle: .title2)
+        textField.adjustsFontForContentSizeCategory = true
+        
+        let paddingView: UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
+        textField.leftView = paddingView
+        textField.leftViewMode = .always
         
         textField.text = "123456"
         
@@ -49,7 +62,7 @@ class LoginController: UIViewController {
     let miniContainerView: UIView = {
         let uiView = UIView()
         uiView.translatesAutoresizingMaskIntoConstraints = false
-        uiView.backgroundColor = UIColor.brown
+        uiView.backgroundColor = UIColor.clear
         
         return uiView
     }()
@@ -57,9 +70,10 @@ class LoginController: UIViewController {
     let forgotMyPasswordButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor.green
-        button.setTitle("Forgot my password...", for: .normal)
-        button.setTitleColor(UIColor.brown, for: .normal)
+        button.setTitle("Forgot my password", for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
         
         return button
     }()
@@ -67,10 +81,11 @@ class LoginController: UIViewController {
     let createAccountButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor.green
         button.setTitle("Create an Account", for: .normal)
-        button.setTitleColor(UIColor.brown, for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
         button.addTarget(self, action: #selector(createAccountTapped), for: .touchUpInside)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
         
         return button
     }()
@@ -78,7 +93,7 @@ class LoginController: UIViewController {
     let separatorView: UIView = {
         let uiView = UIView()
         uiView.translatesAutoresizingMaskIntoConstraints = false
-        uiView.backgroundColor = UIColor.yellow
+        uiView.backgroundColor = UIColor.red
         
         return uiView
     }()
@@ -87,10 +102,13 @@ class LoginController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Login", for: .normal)
-        button.backgroundColor = UIColor.blue
-        button.setTitleColor(UIColor.cyan, for: .normal)
+        button.backgroundColor = UIColor.cyan
+        button.setTitleColor(UIColor.blue, for: .normal)
         button.layer.cornerRadius = 16.0
         button.layer.masksToBounds = true
+        
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
         
         button.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
         
@@ -118,8 +136,8 @@ class LoginController: UIViewController {
             if let error = error {
                 print(error.localizedDescription)
                 return
-            }
-
+            } 
+            
 //            let messagesController = MessagesController(style: .plain)
 //            self.present(messagesController, animated: true, completion: nil)
             
