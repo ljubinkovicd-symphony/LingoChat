@@ -117,7 +117,7 @@ class LoginController: UIViewController {
     let separatorView: UIView = {
         let uiView = UIView()
         uiView.translatesAutoresizingMaskIntoConstraints = false
-        uiView.backgroundColor = UIColor.red
+        uiView.backgroundColor = UIColor.white
         
         return uiView
     }()
@@ -172,8 +172,12 @@ class LoginController: UIViewController {
     
     // MARK: - Button Tap Methods
     @objc func createAccountTapped(_ sender: UIButton) {
+//        let registerController = RegisterController()
+//        present(registerController, animated: true, completion: nil)
+        
+        // TODO: USE THIS
         let registerController = RegisterController()
-        present(registerController, animated: true, completion: nil)
+        self.navigationController?.pushViewController(registerController, animated: true)
     }
     
     @objc func loginTapped() {

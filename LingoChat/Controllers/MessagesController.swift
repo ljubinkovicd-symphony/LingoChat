@@ -276,7 +276,7 @@ class MessagesController: UITableViewController {
         
         guard let user = userSnapshot.value as? [String : Any] else { return cell }
         
-        let email = user[Constants.UserFields.email] as? String ?? ""
+        let email = user[Constants.UserFields.username] as? String ?? ""
         let password = user[Constants.UserFields.password] as? String ?? ""
         let profileImageUrl = user[Constants.UserFields.profileImageUrl] as? String
         

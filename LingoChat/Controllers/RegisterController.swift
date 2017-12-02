@@ -19,7 +19,7 @@ class RegisterController: UIViewController {
     let userProfileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = UIColor.blue
+        imageView.backgroundColor = UIColor.white
         imageView.layer.cornerRadius = 75.0 // Half of the imageView height
         imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFill
@@ -32,17 +32,46 @@ class RegisterController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false // disables conflict with constraints
         label.text = "Register here"
         label.textAlignment = .center
+        label.textColor = UIColor.white
+        
+        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
+    }()
+    
+    let usernameTextField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = "Username"
+        textField.backgroundColor = UIColor.white
+        textField.textColor = UIColor(rgb: 0x0077BE)
+        textField.textAlignment = .center
+        
+        textField.layer.cornerRadius = 32.0
+        textField.layer.masksToBounds = true
+        
+        textField.font = UIFont.preferredFont(forTextStyle: .title2)
+        textField.adjustsFontForContentSizeCategory = true
+        
+        textField.text = "Djordje Ljubinkovic"
+        
+        return textField
     }()
     
     let emailTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Email"
-        textField.borderStyle = .line
-        textField.layer.cornerRadius = 8.0
+        textField.backgroundColor = UIColor.white
+        textField.textColor = UIColor(rgb: 0x0077BE)
+        textField.textAlignment = .center
+        
+        textField.layer.cornerRadius = 32.0
         textField.layer.masksToBounds = true
+        
+        textField.font = UIFont.preferredFont(forTextStyle: .title2)
+        textField.adjustsFontForContentSizeCategory = true
         
         textField.text = "test@user.com"
         
@@ -53,10 +82,15 @@ class RegisterController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Password"
-        textField.borderStyle = .line
-        textField.layer.cornerRadius = 8.0
+        textField.backgroundColor = UIColor.white
+        textField.textColor = UIColor(rgb: 0x0077BE)
+        textField.textAlignment = .center
+        
+        textField.layer.cornerRadius = 32.0
         textField.layer.masksToBounds = true
-        textField.isSecureTextEntry = true
+        
+        textField.font = UIFont.preferredFont(forTextStyle: .title2)
+        textField.adjustsFontForContentSizeCategory = true
         
         textField.text = "123456"
         
@@ -67,10 +101,13 @@ class RegisterController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Register", for: .normal)
-        button.backgroundColor = UIColor.blue
-        button.setTitleColor(UIColor.cyan, for: .normal)
+        button.backgroundColor = UIColor.white
+        button.setTitleColor(UIColor(rgb: 0x0077BE), for: .normal)
         button.layer.cornerRadius = 16.0
         button.layer.masksToBounds = true
+        
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
         
         button.addTarget(self, action: #selector(registerTapped), for: .touchUpInside)
         
@@ -93,8 +130,7 @@ class RegisterController: UIViewController {
         
         picker.delegate = self
         
-        view.backgroundColor = UIColor.cyan
-        setupLoginScreenLayout()
+        setupRegisterScreenLayout()
         
         print("LOADED REGISTER CONTROLLER")
     }
@@ -136,6 +172,7 @@ class RegisterController: UIViewController {
                     if let profileImgUrl = metadata?.downloadURL()?.absoluteString {
                         
                         let values = [
+                            "username": self.usernameTextField.text!,
                             "email": self.emailTextField.text!,
                             "password": self.passwordTextField.text!,
                             "profileImageUrl": profileImgUrl,
@@ -148,6 +185,7 @@ class RegisterController: UIViewController {
                                 return
                             }
                             
+                            // TODO: USE THIS
                             let messagesController = MessagesController(style: .plain)
                             self.navigationController?.pushViewController(messagesController, animated: true)
                         })
@@ -164,10 +202,13 @@ class RegisterController: UIViewController {
     }
     
     // MARK: - Setup Layout
-    fileprivate func setupLoginScreenLayout() {
+    fileprivate func setupRegisterScreenLayout() {
+        
+        view.backgroundColor = UIColor(rgb: 0x0077BE) // Ocean Blue Color
         
         view.addSubview(userProfileImageView)
         view.addSubview(loginOrRegisterLabel)
+        view.addSubview(usernameTextField)
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
         view.addSubview(registerButton)
@@ -188,10 +229,15 @@ class RegisterController: UIViewController {
         loginOrRegisterLabel.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -16.0).isActive = true
         loginOrRegisterLabel.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
         
+        usernameTextField.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -32.0).isActive = true
+        usernameTextField.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
+        usernameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        usernameTextField.topAnchor.constraint(equalTo: loginOrRegisterLabel.bottomAnchor, constant: 8.0).isActive = true
+        
         emailTextField.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -32.0).isActive = true
         emailTextField.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
         emailTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        emailTextField.topAnchor.constraint(equalTo: loginOrRegisterLabel.bottomAnchor, constant: 8.0).isActive = true
+        emailTextField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: 8.0).isActive = true
         
         passwordTextField.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -32.0).isActive = true
         passwordTextField.heightAnchor.constraint(equalToConstant: 60.0).isActive = true

@@ -12,6 +12,7 @@ struct Constants {
  
     struct UserFields {
         static let uid = "uid"
+        static let username = "username"
         static let email = "email"
         static let password = "password"
         static let profileImageUrl = "profileImageUrl"

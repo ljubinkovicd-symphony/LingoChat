@@ -14,6 +14,47 @@ private let cellId = "cellId"
 
 class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
+    
+    
+    let currentUserTitleContainer: UIView = {
+        let uiView = UIView()
+        uiView.translatesAutoresizingMaskIntoConstraints = false
+        //        uiView.backgroundColor = UIColor(rgb: 0xDCF8C6) // Light soft green color (HEX: #DCF8C6)
+        uiView.backgroundColor = UIColor.clear // Light soft green color (HEX: #DCF8C6)
+        uiView.layer.cornerRadius = 16.0
+        uiView.layer.masksToBounds = true
+        
+        return uiView
+    }()
+    
+    let profileImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(named: "attachment_icon")
+        imageView.backgroundColor = UIColor.red
+        imageView.layer.cornerRadius = 16.0 // half of the imageView.height
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        
+        return imageView
+    }()
+    
+    let userNameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "SOME USER"
+        
+        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.adjustsFontForContentSizeCategory = true
+        
+        return label
+    }()
+    
+    
+    
+    
+    
+    
     private var ref: DatabaseReference!
     private var refHandle: DatabaseHandle?
     
@@ -81,10 +122,9 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         // Setup database reference
         ref = Database.database().reference()
         
-//        observeMessages()
-        fetchAndListenForMessagesForUsers()
+        setupNavigationBar()
         
-        navigationItem.title = "\(userSnapshot.key)" // Tapped user row's uid
+        fetchAndListenForMessagesForUsers()
         
         collectionView?.alwaysBounceVertical = true
         collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
@@ -340,9 +380,35 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         handleSend()
     }
     
+    // MARK: - Setup Layout
+    fileprivate func setupNavigationBar() {
+    
+        navigationItem.titleView = currentUserTitleContainer
+        currentUserTitleContainer.addSubview(profileImageView)
+        currentUserTitleContainer.addSubview(userNameLabel)
+        
+        // Place user information into views
+        guard let user = userSnapshot.value as? [String : Any] else { return }
+        profileImageView.loadImageUsingCache(with: user[Constants.UserFields.profileImageUrl] as? String ?? "attachment_icon")
+        userNameLabel.text = user[Constants.UserFields.username] as? String ?? "NO_NAME"
+        
+        currentUserTitleContainer.widthAnchor.constraint(equalToConstant: view .frame.size.width / 2.0).isActive = true
+        currentUserTitleContainer.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+        currentUserTitleContainer.centerXAnchor.constraint(equalTo: navigationItem.titleView!.centerXAnchor).isActive = true
+        currentUserTitleContainer.centerYAnchor.constraint(equalTo: navigationItem.titleView!.centerYAnchor).isActive = true
+        
+        profileImageView.widthAnchor.constraint(equalToConstant: 32.0).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
+        profileImageView.centerYAnchor.constraint(equalTo: currentUserTitleContainer.centerYAnchor).isActive = true
+        profileImageView.leadingAnchor.constraint(equalTo: currentUserTitleContainer.leadingAnchor, constant: 8.0).isActive = true
+        
+        userNameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 8.0).isActive = true
+        userNameLabel.trailingAnchor.constraint(equalTo: currentUserTitleContainer.trailingAnchor, constant: -8.0).isActive = true
+        userNameLabel.centerYAnchor.constraint(equalTo: currentUserTitleContainer.centerYAnchor).isActive = true
+    }
+    
     var textInputContainerViewBottomAchor: NSLayoutConstraint?
     
-    // MARK: - Setup Layout
     fileprivate func setupCell(_ indexPath: IndexPath, _ cell: ChatMessageCell) {
         
         cell.messageTextView.textColor = UIColor.black
