@@ -54,7 +54,7 @@ class LoginController: UIViewController {
 //        textField.leftView = paddingView
 //        textField.leftViewMode = .always
         
-        textField.text = "test@user.com"
+        textField.text = "leo@email.com"
         
         return textField
     }()
@@ -189,6 +189,7 @@ class LoginController: UIViewController {
                 return
             } 
             
+            // TODO: Figure this out, why it won't work when displaying modally
 //            let messagesController = MessagesController(style: .plain)
 //            self.present(messagesController, animated: true, completion: nil)
             

@@ -13,12 +13,14 @@ import Foundation
 class LCUser {
     
     var userId: String?
+    var username: String?
     var email: String?
     var password: String?
     var timestamp: Int?
     var profileImageUrl: String?
     
-    init(email: String?, profileImageUrl: String?) {
+    init(username: String?, email: String?, profileImageUrl: String?) {
+        self.username = username
         self.email = email
         self.profileImageUrl = profileImageUrl
     }

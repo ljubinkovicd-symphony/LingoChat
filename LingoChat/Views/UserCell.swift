@@ -21,7 +21,7 @@ class UserCell: UITableViewCell {
         return imageView
     }()
     
-    let userEmailLabel: UILabel = {
+    let usernameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16.0)
@@ -60,7 +60,7 @@ class UserCell: UITableViewCell {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
         addSubview(userImageView)
-        addSubview(userEmailLabel)
+        addSubview(usernameLabel)
         addSubview(userMessageDateLabel)
         addSubview(userPasswordLabel)
         addSubview(separatorView)
@@ -70,12 +70,12 @@ class UserCell: UITableViewCell {
         userImageView.heightAnchor.constraint(equalToConstant: 64.0).isActive = true
         userImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0).isActive = true
         
-        userEmailLabel.topAnchor.constraint(equalTo: userImageView.topAnchor).isActive = true
-        userEmailLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 8.0).isActive = true
-        userEmailLabel.trailingAnchor.constraint(equalTo: userMessageDateLabel.leadingAnchor, constant: -8.0).isActive = true
+        usernameLabel.topAnchor.constraint(equalTo: userImageView.topAnchor).isActive = true
+        usernameLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 8.0).isActive = true
+        usernameLabel.trailingAnchor.constraint(equalTo: userMessageDateLabel.leadingAnchor, constant: -8.0).isActive = true
         
-        userMessageDateLabel.bottomAnchor.constraint(equalTo: userEmailLabel.bottomAnchor).isActive = true
-        userMessageDateLabel.leadingAnchor.constraint(equalTo: userEmailLabel.trailingAnchor, constant: 8.0).isActive = true
+        userMessageDateLabel.bottomAnchor.constraint(equalTo: usernameLabel.bottomAnchor).isActive = true
+        userMessageDateLabel.leadingAnchor.constraint(equalTo: usernameLabel.trailingAnchor, constant: 8.0).isActive = true
         userMessageDateLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
         
         userPasswordLabel.bottomAnchor.constraint(equalTo: userImageView.bottomAnchor).isActive = true

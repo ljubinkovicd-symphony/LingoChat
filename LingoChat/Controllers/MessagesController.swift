@@ -50,13 +50,14 @@ class MessagesController: UITableViewController {
     private var ref: DatabaseReference!
     private var refHandle: DatabaseHandle?
     
-    //    private var users: [LCUser]! = []
     private var users: [DataSnapshot]! = []
     
     // TEST COUNT
     private var testCount = 0
     
     private var currentUserProfileImageUrl: String?
+
+    private var dateFormatter: DateFormatter?
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -64,6 +65,12 @@ class MessagesController: UITableViewController {
         
         ref = Database.database().reference()
         
+        // Initialize date formatter______________________________________
+        dateFormatter = DateFormatter()
+        dateFormatter?.dateStyle = .medium
+        dateFormatter?.timeStyle = .none
+        dateFormatter?.locale = Locale(identifier: "en_US") // Dec 2, 2017
+        // _______________________________________________________________
         
         let currentUser = Auth.auth().currentUser
         
@@ -72,17 +79,14 @@ class MessagesController: UITableViewController {
             print(user.uid)
             
             ref.child("users").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
-
-//                print(snapshot)
                 
                 guard let userDict = snapshot.value as? NSDictionary else { return }
-//
+
+                let username = userDict[Constants.UserFields.username] as? String ?? ""
                 let email = userDict[Constants.UserFields.email] as? String ?? ""
                 let profileImageUrl = userDict[Constants.UserFields.profileImageUrl] as? String ?? "attachment_icon"
-                print(email)
-                print(profileImageUrl)
                 
-                let lcUser = LCUser(email: email, profileImageUrl: profileImageUrl)
+                let lcUser = LCUser(username: username, email: email, profileImageUrl: profileImageUrl)
                 
                 DispatchQueue.main.async {
                     self.setupNavigationBar(with: lcUser)
@@ -174,7 +178,7 @@ class MessagesController: UITableViewController {
         
         // Place user information into views
         profileImageView.loadImageUsingCache(with: user.profileImageUrl!)
-        userNameLabel.text = user.email!
+        userNameLabel.text = user.username
         
         currentUserTitleContainer.widthAnchor.constraint(equalToConstant: view .frame.size.width / 2.0).isActive = true
         currentUserTitleContainer.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
@@ -197,12 +201,6 @@ class MessagesController: UITableViewController {
             target: self,
             action: #selector(logoutTapped)
         )
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .add,
-            target: self,
-            action: #selector(createNewUserTapped)
-        )
     }
     
     // MARK: - Button Tap Methods
@@ -215,34 +213,6 @@ class MessagesController: UITableViewController {
             dismiss(animated: true, completion: nil) // Don't need ??
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
-        }
-    }
-    
-    @objc func createNewUserTapped() {
-        
-        testCount += 1
-        
-        let testUserEmail = "test_user\(testCount)@email.com"
-        let testUserPassword = "123456"
-        
-        // Register into Firebase
-        Auth.auth().createUser(withEmail: testUserEmail, password: testUserPassword) { (user, error) in
-            
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            guard let uid = user?.uid else {
-                return
-            }
-            
-            let values = [
-                "email" : testUserEmail,
-                "password" : testUserPassword
-            ]
-            
-            self.ref.child("users").child(uid).updateChildValues(values)
         }
     }
     
@@ -276,19 +246,17 @@ class MessagesController: UITableViewController {
         
         guard let user = userSnapshot.value as? [String : Any] else { return cell }
         
-        let email = user[Constants.UserFields.username] as? String ?? ""
+        let username = user[Constants.UserFields.username] as? String ?? ""
         let password = user[Constants.UserFields.password] as? String ?? ""
         let profileImageUrl = user[Constants.UserFields.profileImageUrl] as? String
-        
-//        print("\n\n\n\(userSnapshot.key) -> \(email)")
         
         if let profileImageUrl = profileImageUrl {
             cell.userImageView.loadImageUsingCache(with: profileImageUrl)
         }
         
-        cell.userEmailLabel.text = "UserEmail: \(email)"
-        cell.userMessageDateLabel.text = Date().description
-        cell.userPasswordLabel.text = "UserPwd: \(password)"
+        cell.usernameLabel.text = "\(username)"
+        cell.userMessageDateLabel.text = dateFormatter?.string(from: Date())
+        cell.userPasswordLabel.text = "\(password)"
         
         return cell
     }
