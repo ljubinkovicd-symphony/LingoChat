@@ -10,12 +10,14 @@ import UIKit
 import FirebaseDatabase
 import FirebaseAuth
 
+// TEST
+import LanguageTranslatorV2
+
 private let cellId = "cellId"
 
 class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    
-    
+    // MARK: - Views
     let currentUserTitleContainer: UIView = {
         let uiView = UIView()
         uiView.translatesAutoresizingMaskIntoConstraints = false
@@ -49,20 +51,6 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         return label
     }()
-    
-    
-    
-    
-    
-    
-    private var ref: DatabaseReference!
-    private var refHandle: DatabaseHandle?
-    
-    var userSnapshot: DataSnapshot!
-    var currentlyLoggedInUserProfileImageUrl: String?
-    
-    // TESTING PURPOSES
-    var myMessages: [Message] = []
     
     let textInputContainer: UIView = {
         let uiView = UIView()
@@ -102,6 +90,17 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         return button
     }()
     
+    let translateMessageButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "translate_icon"), for: .normal)
+        button.contentMode = .scaleAspectFit
+        
+        button.addTarget(self, action: #selector(translateTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
     let separatorLine: UIView = {
         let uiView = UIView()
         uiView.translatesAutoresizingMaskIntoConstraints = false
@@ -109,6 +108,16 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         return uiView
     }()
+    
+    // MARK: - Properties
+    private var ref: DatabaseReference!
+    private var refHandle: DatabaseHandle?
+    
+    var userSnapshot: DataSnapshot!
+    var currentlyLoggedInUserProfileImageUrl: String?
+    
+    // TESTING PURPOSES
+    var myMessages: [Message] = []
     
     // MARK: - Lifecycle Methods
     override func viewWillAppear(_ animated: Bool) {
@@ -130,7 +139,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.contentInset = UIEdgeInsetsMake(8, 0, 58, 0)
         collectionView?.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 58, 0)
-//        collectionView?.frame = CGRect(x: 0, y: 0, width: (collectionView?.frame.width)!, height: (collectionView?.frame.height)! - 56.0) // 56.0 is the height of the text input container
+        //        collectionView?.frame = CGRect(x: 0, y: 0, width: (collectionView?.frame.width)!, height: (collectionView?.frame.height)! - 56.0) // 56.0 is the height of the text input container
         collectionView?.backgroundColor = UIColor.white
         collectionView?.keyboardDismissMode = .interactive
         
@@ -140,10 +149,10 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     // MARK: - Configuration(Orientation) Change Methods
-//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-//
-//        collectionView?.collectionViewLayout.invalidateLayout()
-//    }
+    //    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    //
+    //        collectionView?.collectionViewLayout.invalidateLayout()
+    //    }
     
     // MARK: - Messages Related Methods
     fileprivate func handleSend() {
@@ -205,12 +214,12 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
                         
                         messagesChatIdRef.setValue(message) // this will automatically trigger the listener (for any new messages that are added)
                         
-//                        let messageObject = Message(userId: uid, text: messageText, timestamp: Int(Date().timeIntervalSince1970))
-//
-//                        DispatchQueue.main.async {
-//                            self.myMessages.append(messageObject)
-//                            self.collectionView?.reloadData()
-//                        }
+                        //                        let messageObject = Message(userId: uid, text: messageText, timestamp: Int(Date().timeIntervalSince1970))
+                        //
+                        //                        DispatchQueue.main.async {
+                        //                            self.myMessages.append(messageObject)
+                        //                            self.collectionView?.reloadData()
+                        //                        }
                         
                         return
                     }
@@ -281,9 +290,9 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
                 if NSDictionary(dictionary: currentUserDictionary!).isEqual(userChats) {
                     
                     let chatKey = strongSelf.ref.child("chats").child(rootKey).key
-
-                    strongSelf.refHandle = strongSelf.ref.child("messages").child(chatKey).observe(.childAdded, with: { (snapshot) in
                     
+                    strongSelf.refHandle = strongSelf.ref.child("messages").child(chatKey).observe(.childAdded, with: { (snapshot) in
+                        
                         guard let dictionary = snapshot.value as? [String : Any] else { return }
                         
                         var snapshotDict = snapshot as? DataSnapshot
@@ -293,7 +302,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
                         let text = value?["message"] as? String ?? "no message"
                         let timestamp = value?["timestamp"] as? Int ?? Int(Date().timeIntervalSince1970)
                         
-//                        print("(\(userId), \(text), \(timestamp.description)\n\n")
+                        //                        print("(\(userId), \(text), \(timestamp.description)\n\n")
                         
                         let messageObject = Message(userId: userId, text: text, timestamp: timestamp)
                         
@@ -311,15 +320,15 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     fileprivate func observeMessages() {
         
         refHandle = ref.child("messages").observe(.childAdded, with: { [weak self] (snapshot) in
-
+            
             guard let strongSelf = self else { return }
-
+            
             print(snapshot)
             
-//            strongSelf.fetchMessagesForUsers()
-//            DispatchQueue.main.async {
-//                strongSelf.collectionView?.reloadData()
-//            }
+            //            strongSelf.fetchMessagesForUsers()
+            //            DispatchQueue.main.async {
+            //                strongSelf.collectionView?.reloadData()
+            //            }
             }, withCancel: { (error) in
                 print(error.localizedDescription)
         })
@@ -380,9 +389,35 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         handleSend()
     }
     
+    @objc func translateTapped() {
+        
+        let languageTranslator = LanguageTranslator(username: Constants.IbmWatsonApi.username, password: Constants.IbmWatsonApi.password)
+        let failure = { (error: Error) in print(error) }
+        
+        let listOfInputs: [String] = [myMessages[myMessages.count - 1].text!]
+        
+        // Translating english to french
+        languageTranslator.translate(listOfInputs, from: Languages.english.rawValue, to: Languages.french.rawValue, failure: failure) { [weak self] translation in
+            
+            guard let strongSelf = self else { return }
+            
+            print(translation)
+            
+            //            for i in 0..<translation.translations.count {
+            //                print(translation.translations[i].translation)
+            //            }
+            
+            strongSelf.myMessages[strongSelf.myMessages.count - 1].text! = translation.translations[0].translation
+            
+            DispatchQueue.main.async {
+                strongSelf.collectionView?.reloadData()
+            }
+        }
+    }
+    
     // MARK: - Setup Layout
     fileprivate func setupNavigationBar() {
-    
+        
         navigationItem.titleView = currentUserTitleContainer
         currentUserTitleContainer.addSubview(profileImageView)
         currentUserTitleContainer.addSubview(userNameLabel)
@@ -434,7 +469,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             
             cell.bubbleView.backgroundColor = UIColor(rgb: 0xECE5DD) // Light gray color (HEX: #ECE5DD)
             cell.profileImageView.loadImageUsingCache(with: user[Constants.UserFields.profileImageUrl] as? String ?? "attachment_icon")
-
+            
             cell.bubbleViewLeftAnchor?.isActive = true
             cell.bubbleViewRightAnchor?.isActive = false
             cell.profileImageViewLeftAnchor?.isActive = true
@@ -443,7 +478,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     fileprivate func setupChatLayout() {
-
+        
         // Set a background image in chat log__________________________________________
         UIGraphicsBeginImageContext((self.collectionView?.frame.size)!)
         UIImage(named: "chat_log_background")?.draw(in: (self.collectionView?.bounds)!)
@@ -471,6 +506,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         textInputContainer.addSubview(attachmentButton)
         textInputContainer.addSubview(messageTextField)
         textInputContainer.addSubview(sendMessageButton)
+        textInputContainer.addSubview(translateMessageButton)
         
         attachmentButton.leftAnchor.constraint(equalTo: textInputContainer.leftAnchor, constant: 16.0).isActive = true
         attachmentButton.centerYAnchor.constraint(equalTo: textInputContainer.centerYAnchor).isActive = true
@@ -478,8 +514,13 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         attachmentButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
         
         messageTextField.leftAnchor.constraint(equalTo: attachmentButton.rightAnchor, constant: 8.0).isActive = true
-        messageTextField.rightAnchor.constraint(equalTo: sendMessageButton.leftAnchor, constant: -8.0).isActive = true
+        messageTextField.rightAnchor.constraint(equalTo: translateMessageButton.leftAnchor, constant: -8.0).isActive = true
         messageTextField.centerYAnchor.constraint(equalTo: textInputContainer.centerYAnchor).isActive = true
+        
+        translateMessageButton.rightAnchor.constraint(equalTo: sendMessageButton.leftAnchor, constant: -8.0).isActive = true
+        translateMessageButton.centerYAnchor.constraint(equalTo: textInputContainer.centerYAnchor).isActive = true
+        translateMessageButton.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
+        translateMessageButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
         
         sendMessageButton.rightAnchor.constraint(equalTo: textInputContainer.rightAnchor, constant: -8.0).isActive = true
         sendMessageButton.centerYAnchor.constraint(equalTo: textInputContainer.centerYAnchor).isActive = true
@@ -510,7 +551,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         let keyboardDuration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
         
         if myMessages.count > 0 {
-           collectionView?.scrollToItem(at: IndexPath.init(item: self.myMessages.count - 1, section: 0) , at: .bottom, animated: true)
+            collectionView?.scrollToItem(at: IndexPath.init(item: self.myMessages.count - 1, section: 0) , at: .bottom, animated: true)
         }
         
         textInputContainerViewBottomAchor?.constant = -keyboardFrame!.height
@@ -551,3 +592,4 @@ extension ChatLogController : UITextFieldDelegate {
         return true
     }
 }
+

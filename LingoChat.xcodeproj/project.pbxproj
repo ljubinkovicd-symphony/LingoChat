@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0F10544C1FC8782500EA9E42 /* LCUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F10544B1FC8782500EA9E42 /* LCUser.swift */; };
 		0F11D6D81FC1335B00933F52 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F11D6D71FC1335B00933F52 /* Extensions.swift */; };
+		0F1C967D1FD5CECA0099513B /* LanguageTranslatorV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F1C967C1FD5CECA0099513B /* LanguageTranslatorV2.framework */; };
+		0F1C96801FD5DBC20099513B /* LCTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1C967F1FD5DBC20099513B /* LCTranslator.swift */; };
 		0F3C3D731FCB28C700DB180D /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3C3D721FCB28C700DB180D /* UserCell.swift */; };
 		0F58B3BF1FC154A200CE3EF0 /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F58B3BE1FC154A200CE3EF0 /* RegisterController.swift */; };
 		0F835FBD1FC56B7800F52AD6 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F835FBC1FC56B7800F52AD6 /* Message.swift */; };
@@ -51,6 +53,8 @@
 /* Begin PBXFileReference section */
 		0F10544B1FC8782500EA9E42 /* LCUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCUser.swift; sourceTree = "<group>"; };
 		0F11D6D71FC1335B00933F52 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		0F1C967C1FD5CECA0099513B /* LanguageTranslatorV2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LanguageTranslatorV2.framework; path = Carthage/Build/iOS/LanguageTranslatorV2.framework; sourceTree = "<group>"; };
+		0F1C967F1FD5DBC20099513B /* LCTranslator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCTranslator.swift; sourceTree = "<group>"; };
 		0F3C3D721FCB28C700DB180D /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		0F58B3BE1FC154A200CE3EF0 /* RegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
 		0F835FBC1FC56B7800F52AD6 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -91,6 +95,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				473A4A140568C3A7FEDDFBE6 /* Pods_LingoChat.framework in Frameworks */,
+				0F1C967D1FD5CECA0099513B /* LanguageTranslatorV2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +143,7 @@
 			children = (
 				0F835FBC1FC56B7800F52AD6 /* Message.swift */,
 				0F10544B1FC8782500EA9E42 /* LCUser.swift */,
+				0F1C967F1FD5DBC20099513B /* LCTranslator.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -213,6 +219,7 @@
 		2EC45EB4A27E441F6A3FC638 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F1C967C1FD5CECA0099513B /* LanguageTranslatorV2.framework */,
 				E20A891632A8E7B382738FC1 /* Pods_LingoChat.framework */,
 				8D30FF1467A8C812AFC1A434 /* Pods_LingoChatTests.framework */,
 				AF2595F589637823650F7B9B /* Pods_LingoChatUITests.framework */,
@@ -246,6 +253,7 @@
 				0FEA732F1FC1153F005EB6CD /* Resources */,
 				5D2E46DB3996D2E10D565899 /* [CP] Embed Pods Frameworks */,
 				1C8941B49A4E62EF792E4E9D /* [CP] Copy Pods Resources */,
+				0F1C967E1FD5CF010099513B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -375,6 +383,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0F1C967E1FD5CF010099513B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/LanguageTranslatorV2.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
 		1C8941B49A4E62EF792E4E9D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -545,6 +567,7 @@
 				0F10544C1FC8782500EA9E42 /* LCUser.swift in Sources */,
 				0F11D6D81FC1335B00933F52 /* Extensions.swift in Sources */,
 				0F3C3D731FCB28C700DB180D /* UserCell.swift in Sources */,
+				0F1C96801FD5DBC20099513B /* LCTranslator.swift in Sources */,
 				0FEA73351FC1153F005EB6CD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -714,6 +737,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 847623UFJR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = LingoChat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ljubinkovicd.LingoChat;
@@ -730,6 +757,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 847623UFJR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = LingoChat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ljubinkovicd.LingoChat;
