@@ -93,7 +93,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     let translateMessageButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "translate_icon"), for: .normal)
+        button.setImage(UIImage.init(named: "usa_icon") , for: .normal)
         button.contentMode = .scaleAspectFit
         
         button.addTarget(self, action: #selector(translateTapped), for: .touchUpInside)
@@ -142,7 +142,8 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         //        collectionView?.frame = CGRect(x: 0, y: 0, width: (collectionView?.frame.width)!, height: (collectionView?.frame.height)! - 56.0) // 56.0 is the height of the text input container
         collectionView?.backgroundColor = UIColor.white
         collectionView?.keyboardDismissMode = .interactive
-        
+        collectionView?.delegate = self
+
         setupChatLayout()
         
         registerForKeyboardNotifications()
@@ -368,6 +369,37 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         return CGSize(width: collectionView.frame.width, height: height)
     }
+
+    // TODO: Implement UIMenuController for each collection view cell. (add options: Copy, Translate)
+//    //____________________________________________________________________________________________________________________________________________________________________________________
+//    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
+//
+//        let menuItem = UIMenuItem(title: "CUSTOM ACT", action: #selector(translateText))
+//        let menuController = UIMenuController.shared
+//        menuController.menuItems = [menuItem]
+//
+//        return true
+//    }
+//
+//    @objc func translateText(for cellAtIndexPath: IndexPath) {
+//
+//    }
+//
+//    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+//
+//        return (action == NSSelectorFromString("copy:") || action == NSSelectorFromString("translateText:"))
+//    }
+//
+//    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+//
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? ChatMessageCell
+//        if (action == NSSelectorFromString("copy:")) {
+//            print("COPY CALLED!!!")
+//        } else if (action == NSSelectorFromString("translateText:")) {
+//            print("MY TRANSLATE METHOD CALLED!!!, \(cell?.messageTextView.text!)")
+//        }
+//    }
+//    //____________________________________________________________________________________________________________________________________________________________________________________
     
     // MARK: - String Container Height Methods
     private func estimateFrameForText(text: String) -> CGRect {
@@ -390,29 +422,34 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     @objc func translateTapped() {
+
+        let detailsViewController = DetailViewController()
+//        detailsViewController.modalPresentationStyle = .custom
+        present(detailsViewController, animated: true, completion: nil)
         
-        let languageTranslator = LanguageTranslator(username: Constants.IbmWatsonApi.username, password: Constants.IbmWatsonApi.password)
-        let failure = { (error: Error) in print(error) }
-        
-        let listOfInputs: [String] = [myMessages[myMessages.count - 1].text!]
-        
-        // Translating english to french
-        languageTranslator.translate(listOfInputs, from: Languages.english.rawValue, to: Languages.french.rawValue, failure: failure) { [weak self] translation in
-            
-            guard let strongSelf = self else { return }
-            
-            print(translation)
-            
-            //            for i in 0..<translation.translations.count {
-            //                print(translation.translations[i].translation)
-            //            }
-            
-            strongSelf.myMessages[strongSelf.myMessages.count - 1].text! = translation.translations[0].translation
-            
-            DispatchQueue.main.async {
-                strongSelf.collectionView?.reloadData()
-            }
-        }
+        // TODO: UNCOMMENT
+//        let languageTranslator = LanguageTranslator(username: Constants.IbmWatsonApi.username, password: Constants.IbmWatsonApi.password)
+//        let failure = { (error: Error) in print(error) }
+//
+//        let listOfInputs: [String] = [myMessages[myMessages.count - 1].text!]
+//
+//        // Translating english to french
+//        languageTranslator.translate(listOfInputs, from: Languages.spanish.rawValue, to: Languages.english.rawValue, failure: failure) { [weak self] translation in
+//
+//            guard let strongSelf = self else { return }
+//
+//            print(translation)
+//
+//            //            for i in 0..<translation.translations.count {
+//            //                print(translation.translations[i].translation)
+//            //            }
+//
+//            strongSelf.myMessages[strongSelf.myMessages.count - 1].text! = translation.translations[0].translation
+//
+//            DispatchQueue.main.async {
+//                strongSelf.collectionView?.reloadData()
+//            }
+//        }
     }
     
     // MARK: - Setup Layout
@@ -585,6 +622,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     }
 }
 
+// MARK: - UITextFieldDelegate Methods
 extension ChatLogController : UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -592,4 +630,3 @@ extension ChatLogController : UITextFieldDelegate {
         return true
     }
 }
-

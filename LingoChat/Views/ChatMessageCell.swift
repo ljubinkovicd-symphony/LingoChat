@@ -10,6 +10,7 @@ import UIKit
 
 class ChatMessageCell: UICollectionViewCell {
     
+    // MARK: - Properties
     let messageTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -17,6 +18,8 @@ class ChatMessageCell: UICollectionViewCell {
         textView.backgroundColor = UIColor.clear
         textView.textColor = .cyan
         textView.isEditable = false
+        
+        textView.isSelectable = false
         
         return textView
     }()
@@ -50,9 +53,10 @@ class ChatMessageCell: UICollectionViewCell {
     var profileImageViewLeftAnchor: NSLayoutConstraint?
     var profileImageViewRightAnchor: NSLayoutConstraint?
     
+    // MARK: - Initialization
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+    
         setupCellLayout()
     }
     
@@ -60,6 +64,7 @@ class ChatMessageCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Layout Setup
     fileprivate func setupCellLayout() {
         
         addSubview(bubbleView)
@@ -105,3 +110,12 @@ class ChatMessageCell: UICollectionViewCell {
         // __________________________________________________________________________________________________________________________________________________________________________
     }
 }
+
+// MARK: - On press cell methods
+extension ChatMessageCell {
+    
+    func translateText() {
+        print("HELLO_TRANSLATOR_HOW_DO_YOU_DO!:?!?!")
+    }
+}
+

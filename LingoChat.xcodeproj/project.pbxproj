@@ -28,6 +28,11 @@
 		0FEA73631FC1167E005EB6CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FEA73621FC1167E005EB6CD /* GoogleService-Info.plist */; };
 		0FEA73651FC116A3005EB6CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FEA73641FC116A3005EB6CD /* GoogleService-Info.plist */; };
 		0FEA73671FC116A9005EB6CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FEA73661FC116A9005EB6CD /* GoogleService-Info.plist */; };
+		0FFCF2FC1FD9AEAE00F00A3C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFCF2FB1FD9AEAE00F00A3C /* DetailViewController.swift */; };
+		0FFCF2FF1FD9B85D00F00A3C /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFCF2FE1FD9B85D00F00A3C /* DimmingPresentationController.swift */; };
+		0FFCF3011FD9BFB500F00A3C /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFCF3001FD9BFB500F00A3C /* GradientView.swift */; };
+		0FFCF3041FD9C14300F00A3C /* BounceAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFCF3031FD9C14300F00A3C /* BounceAnimationController.swift */; };
+		0FFCF3061FD9C24000F00A3C /* SlideOutAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFCF3051FD9C24000F00A3C /* SlideOutAnimationController.swift */; };
 		3A0E47DA1657CC8CB50583CE /* Pods_LingoChatUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF2595F589637823650F7B9B /* Pods_LingoChatUITests.framework */; };
 		473A4A140568C3A7FEDDFBE6 /* Pods_LingoChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20A891632A8E7B382738FC1 /* Pods_LingoChat.framework */; };
 		A07920870E484D510D258852 /* Pods_LingoChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D30FF1467A8C812AFC1A434 /* Pods_LingoChatTests.framework */; };
@@ -78,6 +83,11 @@
 		0FEA73621FC1167E005EB6CD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0FEA73641FC116A3005EB6CD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0FEA73661FC116A9005EB6CD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0FFCF2FB1FD9AEAE00F00A3C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		0FFCF2FE1FD9B85D00F00A3C /* DimmingPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
+		0FFCF3001FD9BFB500F00A3C /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		0FFCF3031FD9C14300F00A3C /* BounceAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BounceAnimationController.swift; sourceTree = "<group>"; };
+		0FFCF3051FD9C24000F00A3C /* SlideOutAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideOutAnimationController.swift; sourceTree = "<group>"; };
 		30495E64AA295542667C0574 /* Pods-LingoChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LingoChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-LingoChat/Pods-LingoChat.release.xcconfig"; sourceTree = "<group>"; };
 		6EFD37CD854C76CB025DB273 /* Pods-LingoChatUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LingoChatUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LingoChatUITests/Pods-LingoChatUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		8D30FF1467A8C812AFC1A434 /* Pods_LingoChatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LingoChatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,10 +140,12 @@
 		0F4667501FC1186E00281DAA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0FFCF2FD1FD9B83A00F00A3C /* Presentation Controllers */,
 				0FEA73361FC1153F005EB6CD /* LoginController.swift */,
 				0F58B3BE1FC154A200CE3EF0 /* RegisterController.swift */,
 				0F85075D1FC21E42000708EE /* ChatLogController.swift */,
 				0FD32D721FC47B8A00542474 /* MessagesController.swift */,
+				0FFCF2FB1FD9AEAE00F00A3C /* DetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -153,6 +165,7 @@
 			children = (
 				0F8507621FC24E1F000708EE /* ChatMessageCell.swift */,
 				0F3C3D721FCB28C700DB180D /* UserCell.swift */,
+				0FFCF3001FD9BFB500F00A3C /* GradientView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -182,6 +195,7 @@
 		0FEA73331FC1153F005EB6CD /* LingoChat */ = {
 			isa = PBXGroup;
 			children = (
+				0FFCF3021FD9C12200F00A3C /* Animations */,
 				0F835FBB1FC56B4C00F52AD6 /* Models */,
 				0F8507611FC24CF5000708EE /* Views */,
 				0F11D6D61FC1334F00933F52 /* Helpers */,
@@ -214,6 +228,23 @@
 				0FEA73661FC116A9005EB6CD /* GoogleService-Info.plist */,
 			);
 			path = LingoChatUITests;
+			sourceTree = "<group>";
+		};
+		0FFCF2FD1FD9B83A00F00A3C /* Presentation Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				0FFCF2FE1FD9B85D00F00A3C /* DimmingPresentationController.swift */,
+			);
+			path = "Presentation Controllers";
+			sourceTree = "<group>";
+		};
+		0FFCF3021FD9C12200F00A3C /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				0FFCF3031FD9C14300F00A3C /* BounceAnimationController.swift */,
+				0FFCF3051FD9C24000F00A3C /* SlideOutAnimationController.swift */,
+			);
+			path = Animations;
 			sourceTree = "<group>";
 		};
 		2EC45EB4A27E441F6A3FC638 /* Frameworks */ = {
@@ -557,13 +588,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FFCF2FC1FD9AEAE00F00A3C /* DetailViewController.swift in Sources */,
+				0FFCF2FF1FD9B85D00F00A3C /* DimmingPresentationController.swift in Sources */,
+				0FFCF3011FD9BFB500F00A3C /* GradientView.swift in Sources */,
 				0F85075E1FC21E42000708EE /* ChatLogController.swift in Sources */,
 				0F58B3BF1FC154A200CE3EF0 /* RegisterController.swift in Sources */,
 				0FEA73371FC1153F005EB6CD /* LoginController.swift in Sources */,
 				0FD32D731FC47B8A00542474 /* MessagesController.swift in Sources */,
 				0F8507631FC24E1F000708EE /* ChatMessageCell.swift in Sources */,
+				0FFCF3061FD9C24000F00A3C /* SlideOutAnimationController.swift in Sources */,
 				0F9CD7491FCA9A1200F63165 /* Constants.swift in Sources */,
 				0F835FBD1FC56B7800F52AD6 /* Message.swift in Sources */,
+				0FFCF3041FD9C14300F00A3C /* BounceAnimationController.swift in Sources */,
 				0F10544C1FC8782500EA9E42 /* LCUser.swift in Sources */,
 				0F11D6D81FC1335B00933F52 /* Extensions.swift in Sources */,
 				0F3C3D731FCB28C700DB180D /* UserCell.swift in Sources */,

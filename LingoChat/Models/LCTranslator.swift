@@ -16,7 +16,6 @@ enum Languages: String {
     case english = "en"
     case spanish = "es"
     case french = "fr"
-    case italian = "it"
     case portuguese = "pt"
 }
 

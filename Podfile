@@ -6,6 +6,8 @@ target 'LingoChat' do
   use_frameworks!
 
   # Pods for LingoChat
+  
+  # Firebase Pods
   pod 'Firebase/Core'
   pod 'Firebase/Storage'
   pod 'Firebase/Auth'
