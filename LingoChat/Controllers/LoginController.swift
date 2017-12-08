@@ -228,6 +228,7 @@ class LoginController: UIViewController {
         view.backgroundColor = UIColor(rgb: 0x0077BE) // Ocean Blue Color
         
         view.addSubview(jumboContainer)
+        
         jumboContainer.addSubview(logoImageView)
         jumboContainer.addSubview(appNameLabel)
         jumboContainer.addSubview(emailTextField)
@@ -239,7 +240,7 @@ class LoginController: UIViewController {
         jumboContainerBottomAnchor = jumboContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16.0)
         jumboContainerBottomAnchor?.isActive = true
         jumboContainer.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -16.0).isActive = true
-        jumboContainer.heightAnchor.constraint(equalToConstant: 500.0).isActive = true
+        jumboContainer.heightAnchor.constraint(equalToConstant: 550.0).isActive = true
         
         logoImageView.centerXAnchor.constraint(equalTo: jumboContainer.centerXAnchor).isActive = true
         logoImageView.bottomAnchor.constraint(equalTo: appNameLabel.topAnchor, constant: -32.0).isActive = true

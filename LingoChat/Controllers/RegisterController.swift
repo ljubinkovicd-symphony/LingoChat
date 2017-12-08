@@ -185,7 +185,6 @@ class RegisterController: UIViewController {
                                 return
                             }
                             
-                            // TODO: USE THIS
                             let messagesController = MessagesController(style: .plain)
                             self.navigationController?.pushViewController(messagesController, animated: true)
                         })

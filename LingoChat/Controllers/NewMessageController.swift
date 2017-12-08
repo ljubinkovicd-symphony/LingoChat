@@ -93,12 +93,10 @@ class NewMessageController: UITableViewController {
                 let childSnapshot = child as? DataSnapshot
                 let userDictionary = childSnapshot!.value as? NSDictionary
                 
-                let uid = userDictionary?[Constants.UserFields.uid] as? String ?? ""
+                let uid = childSnapshot!.key
                 let username = userDictionary?[Constants.UserFields.username] as? String ?? ""
                 let email = userDictionary?[Constants.UserFields.email] as? String ?? ""
                 let profileImageUrl = userDictionary?[Constants.UserFields.profileImageUrl] as? String ?? ""
-                
-                print("username: \(username), email: \(email)")
                 
                 let user = LCUser.init(userId: uid, username: username, email: email, profileImageUrl: profileImageUrl)
                 
@@ -189,6 +187,8 @@ class NewMessageController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let user = self.users![(indexPath as NSIndexPath).row]
+        
+        print("BEFORE SEGUE INTO CHATLOGCONTROLLER: \(user.userId!)")
         
         let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
         chatLogController.userSnapshot = user

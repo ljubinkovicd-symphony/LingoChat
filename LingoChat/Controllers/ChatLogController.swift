@@ -271,7 +271,10 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         // uid = fromId (sender), toId = receiver
         var userChats: NSDictionary = [:]
         
+        // TODO: Fix when segueing from NewMessageController to ChatLogController
+        // userSnapshot.userId! is ""
         let toId = userSnapshot.userId! // this is the selected user row
+        print("WHAT IS TO_ID: \(toId)")
         
         if uid != toId {
             userChats = ["\(uid)": true,
