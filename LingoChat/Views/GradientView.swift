@@ -23,7 +23,7 @@ class GradientView: UIView {
     
     override func draw(_ rect: CGRect) {
         // 1
-        let components: [CGFloat] = [ 0.8, 0.8, 0, 0.3, 0, 0, 0, 0.7 ] // 0.8, 0.8, 0, 0.3 -> First Color, 0, 0, 0, 0.7 -> Second Color
+        let components: [CGFloat] = [ 0, 0.47, 0.75, 0.3, 0, 0, 0, 0.7 ] // 0, 0.47, 0.75, 0.3 -> First Color, 0, 0, 0, 0.7 -> Second Color
         let locations: [CGFloat] = [ 0, 1 ]
         // 2
         let colorSpace = CGColorSpaceCreateDeviceRGB()

@@ -113,15 +113,18 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     private var ref: DatabaseReference!
     private var refHandle: DatabaseHandle?
     
-    var userSnapshot: DataSnapshot!
+    var userSnapshot: LCUser!
     var currentlyLoggedInUserProfileImageUrl: String?
     
     // TESTING PURPOSES
     var myMessages: [Message] = []
     
+    var selectedLanguage: Languages?
+    
     // MARK: - Lifecycle Methods
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         messageTextField.becomeFirstResponder()
     }
     
@@ -144,6 +147,9 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         collectionView?.keyboardDismissMode = .interactive
         collectionView?.delegate = self
 
+        
+        selectedLanguage = Languages.english
+        
         setupChatLayout()
         
         registerForKeyboardNotifications()
@@ -169,7 +175,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             // uid = fromId (sender), toId = receiver
             var userChats: NSDictionary = [:]
             
-            let toId = userSnapshot.key // this is the selected user row
+            let toId = userSnapshot.userId! // this is the selected user row
             
             if uid != toId {
                 userChats = ["\(uid)": true,
@@ -266,7 +272,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         // uid = fromId (sender), toId = receiver
         var userChats: NSDictionary = [:]
         
-        let toId = userSnapshot.key // this is the selected user row
+        let toId = userSnapshot.userId! // this is the selected user row
         
         if uid != toId {
             userChats = ["\(uid)": true,
@@ -315,23 +321,6 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
                     }) // end of ref.child("messages") closure
                 } // end of if statement
             } // end of for loop
-        })
-    }
-    
-    fileprivate func observeMessages() {
-        
-        refHandle = ref.child("messages").observe(.childAdded, with: { [weak self] (snapshot) in
-            
-            guard let strongSelf = self else { return }
-            
-            print(snapshot)
-            
-            //            strongSelf.fetchMessagesForUsers()
-            //            DispatchQueue.main.async {
-            //                strongSelf.collectionView?.reloadData()
-            //            }
-            }, withCancel: { (error) in
-                print(error.localizedDescription)
         })
     }
     
@@ -424,32 +413,8 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     @objc func translateTapped() {
 
         let detailsViewController = DetailViewController()
-//        detailsViewController.modalPresentationStyle = .custom
+        detailsViewController.delegate = self
         present(detailsViewController, animated: true, completion: nil)
-        
-        // TODO: UNCOMMENT
-//        let languageTranslator = LanguageTranslator(username: Constants.IbmWatsonApi.username, password: Constants.IbmWatsonApi.password)
-//        let failure = { (error: Error) in print(error) }
-//
-//        let listOfInputs: [String] = [myMessages[myMessages.count - 1].text!]
-//
-//        // Translating english to french
-//        languageTranslator.translate(listOfInputs, from: Languages.spanish.rawValue, to: Languages.english.rawValue, failure: failure) { [weak self] translation in
-//
-//            guard let strongSelf = self else { return }
-//
-//            print(translation)
-//
-//            //            for i in 0..<translation.translations.count {
-//            //                print(translation.translations[i].translation)
-//            //            }
-//
-//            strongSelf.myMessages[strongSelf.myMessages.count - 1].text! = translation.translations[0].translation
-//
-//            DispatchQueue.main.async {
-//                strongSelf.collectionView?.reloadData()
-//            }
-//        }
     }
     
     // MARK: - Setup Layout
@@ -460,9 +425,8 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         currentUserTitleContainer.addSubview(userNameLabel)
         
         // Place user information into views
-        guard let user = userSnapshot.value as? [String : Any] else { return }
-        profileImageView.loadImageUsingCache(with: user[Constants.UserFields.profileImageUrl] as? String ?? "attachment_icon")
-        userNameLabel.text = user[Constants.UserFields.username] as? String ?? "NO_NAME"
+        profileImageView.loadImageUsingCache(with: userSnapshot.profileImageUrl! as? String ?? "attachment_icon")
+        userNameLabel.text = userSnapshot.username! as? String ?? "NO_NAME"
         
         currentUserTitleContainer.widthAnchor.constraint(equalToConstant: view .frame.size.width / 2.0).isActive = true
         currentUserTitleContainer.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
@@ -502,10 +466,11 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             // Receiver
         } else {
             
-            guard let user = userSnapshot.value as? [String : Any] else { return }
+            
+            print("IT SHOULD BE HERE, the profile image url: \(userSnapshot.profileImageUrl!)")
             
             cell.bubbleView.backgroundColor = UIColor(rgb: 0xECE5DD) // Light gray color (HEX: #ECE5DD)
-            cell.profileImageView.loadImageUsingCache(with: user[Constants.UserFields.profileImageUrl] as? String ?? "attachment_icon")
+            cell.profileImageView.loadImageUsingCache(with: userSnapshot.profileImageUrl! as? String ?? "usa_icon")
             
             cell.bubbleViewLeftAnchor?.isActive = true
             cell.bubbleViewRightAnchor?.isActive = false
@@ -558,6 +523,22 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         translateMessageButton.centerYAnchor.constraint(equalTo: textInputContainer.centerYAnchor).isActive = true
         translateMessageButton.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
         translateMessageButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        
+        // Set translate image
+        switch selectedLanguage! {
+        case Languages.english:
+            translateMessageButton.setImage(UIImage.init(named: "usa_icon") , for: .normal)
+        case Languages.arabic:
+            translateMessageButton.setImage(UIImage.init(named: "saudi_arabia_icon") , for: .normal)
+        case Languages.french:
+            translateMessageButton.setImage(UIImage.init(named: "france_icon") , for: .normal)
+        case Languages.spanish:
+            translateMessageButton.setImage(UIImage.init(named: "spain_icon") , for: .normal)
+        case Languages.portuguese:
+            translateMessageButton.setImage(UIImage.init(named: "portugal_icon") , for: .normal)
+        default:
+            translateMessageButton.setImage(UIImage.init(named: "usa_icon") , for: .normal)
+        }
         
         sendMessageButton.rightAnchor.constraint(equalTo: textInputContainer.rightAnchor, constant: -8.0).isActive = true
         sendMessageButton.centerYAnchor.constraint(equalTo: textInputContainer.centerYAnchor).isActive = true
@@ -623,10 +604,66 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
 }
 
 // MARK: - UITextFieldDelegate Methods
-extension ChatLogController : UITextFieldDelegate {
+extension ChatLogController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         handleSend()
         return true
+    }
+}
+
+extension ChatLogController: DetailViewControllerDelegate {
+    
+    func detailViewControllerDidCancel(_ controller: DetailViewController) {
+        
+        dismiss(animated: true, completion: nil)
+        print("DID CANCEL CALLED")
+    }
+    
+    func detailViewController(_ controller: DetailViewController, didFinishSelecting language: Languages) {
+        
+        selectedLanguage = language
+
+        switch selectedLanguage! {
+        case Languages.english:
+            translateMessageButton.setImage(UIImage.init(named: "usa_icon") , for: .normal)
+        case Languages.arabic:
+            translateMessageButton.setImage(UIImage.init(named: "saudi_arabia_icon") , for: .normal)
+        case Languages.french:
+            translateMessageButton.setImage(UIImage.init(named: "france_icon") , for: .normal)
+        case Languages.spanish:
+            translateMessageButton.setImage(UIImage.init(named: "spain_icon") , for: .normal)
+        case Languages.portuguese:
+            translateMessageButton.setImage(UIImage.init(named: "portugal_icon") , for: .normal)
+        default:
+            translateMessageButton.setImage(UIImage.init(named: "usa_icon") , for: .normal)
+        }
+        
+//        // Translate every incoming message to x language
+//        let languageTranslator = LanguageTranslator(username: Constants.IbmWatsonApi.username, password: Constants.IbmWatsonApi.password)
+//        let failure = { (error: Error) in print(error) }
+//
+//        let listOfInputs: [String] = [myMessages[myMessages.count - 1].text!]
+//
+//        // Translating incoming message's language to selected language
+//        languageTranslator.translate(listOfInputs, from: Languages.spanish.rawValue, to: Languages.english.rawValue, failure: failure) { [weak self] translation in
+//
+//            guard let strongSelf = self else { return }
+//
+//            print(translation)
+//
+//            //            for i in 0..<translation.translations.count {
+//            //                print(translation.translations[i].translation)
+//            //            }
+//
+//            strongSelf.myMessages[strongSelf.myMessages.count - 1].text! = translation.translations[0].translation
+//
+//            DispatchQueue.main.async {
+//                strongSelf.collectionView?.reloadData()
+//            }
+//        }
+        
+        dismiss(animated: true, completion: nil)
+        print("DID FINISH SELECTING CALLED")
     }
 }

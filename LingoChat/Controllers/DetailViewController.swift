@@ -6,14 +6,21 @@
 //  Copyright © 2017 Dorde Ljubinkovic. All rights reserved.
 //
 
-
 // There is NEED to create a delegate protocol because there’s nothing to communicate back to the SearchViewController.
 import UIKit
 
 private let cellId = "cellId"
 private let cellHeight: CGFloat = 60.0
 
+// Think of the delegate protocol as a contract between screen B, in this case the Add Item View Controller, and any screens that wish to use it.
+protocol DetailViewControllerDelegate: class {
+    func detailViewControllerDidCancel(_ controller: DetailViewController)
+    func detailViewController(_ controller: DetailViewController, didFinishSelecting language: Languages)
+}
+
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+ 
+    weak var delegate: DetailViewControllerDelegate?
     
     var countryFlags = [
         (NSLocalizedString("English", comment: "English language selection for all incoming messages to be translated to it."), Languages.english, UIImage(named: "usa_icon")),
@@ -23,6 +30,44 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         (NSLocalizedString("Portuguese", comment: "Portuguese language selection for all incoming messages to be translated to it."), Languages.portuguese, UIImage(named: "portugal_icon"))
     ]
 
+    let containerView: UIView = {
+        let uiView = UIView()
+        uiView.translatesAutoresizingMaskIntoConstraints = false
+        uiView.backgroundColor = UIColor(rgb: 0x0077BE) // Ocean Blue Color
+        
+        uiView.layer.cornerRadius = 16.0
+        uiView.layer.masksToBounds = true
+        
+        return uiView
+    }()
+    
+    /*
+     Style    Font    Size
+     .largeTitle    SFUIDisplay    34.0
+     .title1    SFUIDisplay (-Light on iOS <=10)    28.0
+     .title2    SFUIDisplay    22.0
+     .title3    SFUIDisplay    20.0
+     .headline    SFUIText-Semibold    17.0
+     .callout    SFUIText    16.0
+     .subheadline    SFUIText    15.0
+     .body    SFUIText    17.0
+     .footnote    SFUIText    13.0
+     .caption1    SFUIText    12.0
+     .caption2    SFUIText    11.0
+     */
+    let headerLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Translate receiving messages to..."
+        label.textAlignment = .center
+        label.textColor = UIColor.white
+        
+        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        label.adjustsFontForContentSizeCategory = true
+        
+        return label
+    }()
+    
     let languagesTableView: UITableView = {
         
         let uiTableView = UITableView()
@@ -30,8 +75,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         
         uiTableView.isScrollEnabled = false
         
-        uiTableView.layer.cornerRadius = 16.0
-        uiTableView.layer.masksToBounds = true
+//        uiTableView.layer.cornerRadius = 16.0
+//        uiTableView.layer.masksToBounds = true
         
         return uiTableView
     }()
@@ -60,7 +105,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         languagesTableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(close))
-        
         gestureRecognizer.cancelsTouchesInView = false
         gestureRecognizer.delegate = self
         
@@ -68,10 +112,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func close() {
-        dismiss(animated: true, completion: nil)
-        
-        // TODO: Communicate back to ChatLogController to set the language
-        
+        delegate?.detailViewControllerDidCancel(self)
     }
     
     // MARK: - Custom Methods
@@ -79,12 +120,24 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         
         view.backgroundColor = UIColor.clear
         
-        view.addSubview(languagesTableView)
+        view.addSubview(containerView)
+        containerView.addSubview(headerLabel)
+        containerView.addSubview(languagesTableView)
         
-        languagesTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        languagesTableView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        languagesTableView.widthAnchor.constraint(equalToConstant: 240.0).isActive = true
-        languagesTableView.heightAnchor.constraint(equalToConstant: cellHeight * CGFloat(countryFlags.count)).isActive = true
+        containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        containerView.widthAnchor.constraint(equalToConstant: 280.0).isActive = true
+        containerView.heightAnchor.constraint(equalToConstant: cellHeight * CGFloat(countryFlags.count) + 44.0).isActive = true
+        
+        headerLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+        headerLabel.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        headerLabel.widthAnchor.constraint(equalTo: containerView.widthAnchor).isActive = true
+        headerLabel.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+        
+        languagesTableView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+        languagesTableView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor).isActive = true
+        languagesTableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        languagesTableView.widthAnchor.constraint(equalTo: containerView.widthAnchor).isActive = true
     }
     
     // MARK: - UITableViewDataSource Methods
@@ -108,9 +161,15 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         
         let countryFlagInfo = self.countryFlags[(indexPath as NSIndexPath).row]
         
-        print(countryFlags[indexPath.row].1.rawValue)
+//        print(countryFlags[indexPath.row].1.rawValue)
+        print(countryFlagInfo.1)
         
-//        close()
+        // TODO: Communicate back to ChatLogController to set the language
+        chooseLanguage(language: countryFlagInfo.1)
+    }
+    
+    func chooseLanguage(language: Languages) {
+        delegate?.detailViewController(self, didFinishSelecting: language)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
