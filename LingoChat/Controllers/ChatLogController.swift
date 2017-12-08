@@ -330,9 +330,6 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         return myMessages.count
     }
     
-    var messageLeadingAnchor: NSLayoutConstraint?
-    var messageTrailingAnchor: NSLayoutConstraint?
-    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath as IndexPath) as! ChatMessageCell

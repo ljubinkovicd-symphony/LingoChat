@@ -12,6 +12,14 @@ import FirebaseAuth
 class LoginController: UIViewController {
     
     // MARK: - Properties
+    let jumboContainer: UIView = {
+        let uiView = UIView()
+        uiView.translatesAutoresizingMaskIntoConstraints = false
+        uiView.backgroundColor = UIColor.clear
+        
+        return uiView
+    }()
+    
     let logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -56,6 +64,8 @@ class LoginController: UIViewController {
         
         textField.text = "meg@email.com"
         
+        textField.keyboardType = .emailAddress
+        
         return textField
     }()
     
@@ -79,6 +89,8 @@ class LoginController: UIViewController {
 //        textField.leftViewMode = .always
         
         textField.text = "123456"
+        
+        textField.keyboardType = .alphabet
         
         return textField
     }()
@@ -146,6 +158,16 @@ class LoginController: UIViewController {
         setupLoginScreenLayout()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        // Handle keyboard
+        registerKeyboardNotifications()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        // Remove keyboard observers
+        unregisterKeyboardNotifications()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -196,46 +218,57 @@ class LoginController: UIViewController {
         }
     }
     
+    var logoImageViewWidthAnchor: NSLayoutConstraint?
+    var logoImageViewHeightAnchor: NSLayoutConstraint?
+    var jumboContainerBottomAnchor: NSLayoutConstraint?
+    
     // MARK: - Setup Layout
     fileprivate func setupLoginScreenLayout() {
         
         view.backgroundColor = UIColor(rgb: 0x0077BE) // Ocean Blue Color
         
-        view.addSubview(logoImageView)
-        view.addSubview(appNameLabel)
-        view.addSubview(emailTextField)
-        view.addSubview(passwordTextField)
-        view.addSubview(miniContainerView)
-        view.addSubview(loginButton)
+        view.addSubview(jumboContainer)
+        jumboContainer.addSubview(logoImageView)
+        jumboContainer.addSubview(appNameLabel)
+        jumboContainer.addSubview(emailTextField)
+        jumboContainer.addSubview(passwordTextField)
+        jumboContainer.addSubview(miniContainerView)
+        jumboContainer.addSubview(loginButton)
         
-        logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        jumboContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        jumboContainerBottomAnchor = jumboContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16.0)
+        jumboContainerBottomAnchor?.isActive = true
+        jumboContainer.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -16.0).isActive = true
+        jumboContainer.heightAnchor.constraint(equalToConstant: 500.0).isActive = true
+        
+        logoImageView.centerXAnchor.constraint(equalTo: jumboContainer.centerXAnchor).isActive = true
         logoImageView.bottomAnchor.constraint(equalTo: appNameLabel.topAnchor, constant: -32.0).isActive = true
         logoImageView.widthAnchor.constraint(equalToConstant: 200.0).isActive = true
         logoImageView.heightAnchor.constraint(equalToConstant: 200.0).isActive = true
         
-        appNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        appNameLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        appNameLabel.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -16.0).isActive = true
+        appNameLabel.centerXAnchor.constraint(equalTo: jumboContainer.centerXAnchor).isActive = true
+        appNameLabel.centerYAnchor.constraint(equalTo: jumboContainer.centerYAnchor).isActive = true
+        appNameLabel.widthAnchor.constraint(equalTo: jumboContainer.widthAnchor, constant: -16.0).isActive = true
         appNameLabel.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
         
-        emailTextField.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -32.0).isActive = true
+        emailTextField.widthAnchor.constraint(equalTo: jumboContainer.widthAnchor, constant: -32.0).isActive = true
         emailTextField.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
-        emailTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emailTextField.centerXAnchor.constraint(equalTo: jumboContainer.centerXAnchor).isActive = true
         emailTextField.topAnchor.constraint(equalTo: appNameLabel.bottomAnchor, constant: 8.0).isActive = true
         
-        passwordTextField.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -32.0).isActive = true
+        passwordTextField.widthAnchor.constraint(equalTo: jumboContainer.widthAnchor, constant: -32.0).isActive = true
         passwordTextField.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
-        passwordTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        passwordTextField.centerXAnchor.constraint(equalTo: jumboContainer.centerXAnchor).isActive = true
         passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 8.0).isActive = true
         
-        miniContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        miniContainerView.centerXAnchor.constraint(equalTo: jumboContainer.centerXAnchor).isActive = true
         miniContainerView.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 8.0).isActive = true
-        miniContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -16.0).isActive = true
+        miniContainerView.widthAnchor.constraint(equalTo: jumboContainer.widthAnchor, constant: -16.0).isActive = true
         miniContainerView.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
         
-        loginButton.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -32.0).isActive = true
-        loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        loginButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16.0).isActive = true
+        loginButton.widthAnchor.constraint(equalTo: jumboContainer.widthAnchor, constant: -32.0).isActive = true
+        loginButton.centerXAnchor.constraint(equalTo: jumboContainer.centerXAnchor).isActive = true
+        loginButton.bottomAnchor.constraint(equalTo: jumboContainer.bottomAnchor, constant: -16.0).isActive = true
         
         miniContainerView.addSubview(separatorView)
         miniContainerView.addSubview(forgotMyPasswordButton)
@@ -253,6 +286,39 @@ class LoginController: UIViewController {
         createAccountButton.centerYAnchor.constraint(equalTo: miniContainerView.centerYAnchor).isActive = true
         createAccountButton.leftAnchor.constraint(equalTo: separatorView.rightAnchor, constant: 8.0).isActive = true
         createAccountButton.rightAnchor.constraint(equalTo: miniContainerView.rightAnchor, constant: -8.0).isActive = true
+    }
+    
+    // MARK: - Keyboard Related Methods
+    func registerKeyboardNotifications() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
+    }
+    
+    func unregisterKeyboardNotifications() {
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidHide, object: nil)
+    }
+    
+    func updateLayoutForKeyboardHeight(keyboardHeight: CGFloat) {
+        jumboContainerBottomAnchor?.isActive = false
+        jumboContainerBottomAnchor = jumboContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -keyboardHeight)
+        jumboContainerBottomAnchor?.isActive = true
+    }
+    
+    @objc func keyboardDidShow(notification: NSNotification) {
+        
+        if let rectValue = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue {
+            let keyboardSize = rectValue.cgRectValue.size
+            print("KEYBOARD_DID_SHOW CALLED WITH HEIGHT OF: \(keyboardSize.height)")
+            updateLayoutForKeyboardHeight(keyboardHeight: keyboardSize.height)
+        }
+    }
+    
+    @objc func keyboardDidHide(notification: NSNotification) {
+        
+        updateLayoutForKeyboardHeight(keyboardHeight: 16.0) // change to 0.0
     }
 }
 

@@ -50,7 +50,6 @@ class MessagesController: UITableViewController {
     private var ref: DatabaseReference!
     private var refHandle: DatabaseHandle?
     private var chatRefHandle: DatabaseHandle?
-
     
     private var users: [LCUser]! = []
     
@@ -74,41 +73,21 @@ class MessagesController: UITableViewController {
         dateFormatter?.locale = Locale(identifier: "en_US") // Dec 2, 2017 (if timeStyle == .none)
         // _______________________________________________________________
         
-        let currentUser = Auth.auth().currentUser
-        
-//        if let user = currentUser {
-//
-//            print(user.uid)
-//            
-//            ref.child("users").child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
-//
-//                guard let userDict = snapshot.value as? NSDictionary else { return }
-//
-//                let username = userDict[Constants.UserFields.username] as? String ?? ""
-//                let email = userDict[Constants.UserFields.email] as? String ?? ""
-//                let profileImageUrl = userDict[Constants.UserFields.profileImageUrl] as? String ?? "attachment_icon"
-//
-//                let lcUser = LCUser(username: username, email: email, profileImageUrl: profileImageUrl)
-//
-//                DispatchQueue.main.async {
-//                    self.setupNavigationBar(with: lcUser)
-//                }
-//            })
-//
-//        } else {
-//            return
-//        }
-        
         tableView.separatorStyle = .none
         tableView.register(UserCell.self, forCellReuseIdentifier: cellId)
         
+        fetchAndListenForUsers()
+    }
+    
+    // MARK: - Firebase Listen Event Methods
+    fileprivate func fetchAndListenForUsers() {
         // OBSERVE USERS
         refHandle = ref.child("users").observe(.childAdded, with: { [weak self] (snapshot) in
             
             guard let strongSelf = self else { return }
             
-//            print("OTHER_USER: \(snapshot.key)") // this is the user uid (read from the database)
-//            print("CURRENTLY_LOGGED_IN_USER: \(Auth.auth().currentUser!.uid)") // This is the currently logged in user's uid
+            //            print("OTHER_USER: \(snapshot.key)") // this is the user uid (read from the database)
+            //            print("CURRENTLY_LOGGED_IN_USER: \(Auth.auth().currentUser!.uid)") // This is the currently logged in user's uid
             
             // Added
             guard let uid = Auth.auth().currentUser?.uid else {
@@ -155,21 +134,21 @@ class MessagesController: UITableViewController {
                         
                         print("ROOT KEY: \(rootKey)")
                         
-                    strongSelf.ref.child("chats").child(rootKey).observeSingleEvent(of: .value, with: { (chatSnapshot) in
-                        
+                        strongSelf.ref.child("chats").child(rootKey).observeSingleEvent(of: .value, with: { (chatSnapshot) in
+                            
                             var chatSnapshotDict = chatSnapshot as? DataSnapshot
                             let chatValue = chatSnapshotDict?.value as? NSDictionary
-                        
+                            
                             let username = userValue?[Constants.UserFields.username] as? String ?? "Unknown"
                             let profileImageUrl = userValue?[Constants.UserFields.profileImageUrl] as? String ?? "usa_icon"
-                        
-                        print("PROFILE_IMG_URL: \(profileImageUrl)")
-                        
+                            
+                            print("PROFILE_IMG_URL: \(profileImageUrl)")
+                            
                             let lastMessage = chatValue?["last-message"] as? String ?? "You became friends with \(username)"
                             let messageTimestamp = chatValue?["timestamp"] as? Int ?? Int(Date().timeIntervalSince1970)
-                        
-                        let userObject = LCUser(userId: toId, username: username, profileImageUrl: profileImageUrl, timestamp: messageTimestamp, lastMessage: lastMessage)
-                        
+                            
+                            let userObject = LCUser(userId: toId, username: username, profileImageUrl: profileImageUrl, timestamp: messageTimestamp, lastMessage: lastMessage)
+                            
                             DispatchQueue.main.async {
                                 strongSelf.users.append(userObject)
                                 strongSelf.tableView.insertRows(at: [IndexPath(row: strongSelf.users.count - 1, section: 0)], with: .automatic)
@@ -178,63 +157,8 @@ class MessagesController: UITableViewController {
                         
                     } // end of if statement
                 } // end of for loop
-                })
+            })
         })
-        
-        
-    
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        // TODO: Get latest message between users
-//        ref.child("user-chats").observeSingleEvent(of: .value, with: { (snapshot) in
-//
-//            for child in snapshot.children {
-//
-//                let childSnapshot = child as? DataSnapshot
-//
-//                print("USER_CHAT_KEY: \(childSnapshot!.value!)")
-//            }
-//        })
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     // MARK: - Setup Layout Methods
@@ -300,15 +224,6 @@ class MessagesController: UITableViewController {
         
         let lcUser = self.users[indexPath.row]
         
-//        if lcUser.userId! == Auth.auth().currentUser?.uid {
-//
-//            print("AM I GETTING HERE?")
-//
-//            if let profileImgUrl = lcUser.profileImageUrl {
-//                currentUserProfileImageUrl = profileImgUrl
-//            }
-//        }
-        
         let username = lcUser.username!
         let profileImageUrl = lcUser.profileImageUrl!
         let lastMessage = lcUser.lastMessage!
@@ -329,15 +244,8 @@ class MessagesController: UITableViewController {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        //        let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
-        //        self.present(chatLogController, animated: true, completion: nil)
-        
         let user = self.users[(indexPath as NSIndexPath).row]
         
-        print("CURRENT_ID: \(Auth.auth().currentUser!.uid) VS OTHER_ID: \(user.userId!)")
-        print("PROFILE_PICTURE: \(user.profileImageUrl!)")
-        
-        // TODO: Uncomment
         let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
         chatLogController.userSnapshot = user
         chatLogController.currentlyLoggedInUserProfileImageUrl = currentUserProfileImageUrl
