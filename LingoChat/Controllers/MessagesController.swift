@@ -193,6 +193,12 @@ class MessagesController: UITableViewController {
             target: self,
             action: #selector(logoutTapped)
         )
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .compose,
+            target: self,
+            action: #selector(composeMessage)
+        )
     }
     
     // MARK: - Button Tap Methods
@@ -206,6 +212,13 @@ class MessagesController: UITableViewController {
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
         }
+    }
+    
+    @objc func composeMessage() {
+        
+        let newMessageController = NewMessageController(style: .plain)
+        newMessageController.currentUserProfileImageUrl = currentUserProfileImageUrl
+        self.navigationController?.pushViewController(newMessageController, animated: true)
     }
     
     // MARK: - Table view data source

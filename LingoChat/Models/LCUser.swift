@@ -28,6 +28,13 @@ class LCUser {
         self.lastMessage = lastMessage
     }
     
+    init (userId: String, username: String, email: String, profileImageUrl: String) {
+        self.userId = userId
+        self.username = username
+        self.email = email
+        self.profileImageUrl = profileImageUrl
+    }
+    
     init(username: String?, profileImageUrl: String?) {
         self.username = username
         self.profileImageUrl = profileImageUrl

@@ -146,7 +146,6 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         collectionView?.backgroundColor = UIColor.white
         collectionView?.keyboardDismissMode = .interactive
         collectionView?.delegate = self
-
         
         selectedLanguage = Languages.english
         
@@ -309,19 +308,60 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
                         let text = value?["message"] as? String ?? "no message"
                         let timestamp = value?["timestamp"] as? Int ?? Int(Date().timeIntervalSince1970)
                         
-                        //                        print("(\(userId), \(text), \(timestamp.description)\n\n")
-                        
                         let messageObject = Message(userId: userId, text: text, timestamp: timestamp)
+                        
+                        //                        strongSelf.translateText()
                         
                         DispatchQueue.main.async {
                             strongSelf.myMessages.append(messageObject)
                             strongSelf.collectionView?.reloadData()
                             strongSelf.collectionView?.scrollToItem(at: IndexPath.init(item: strongSelf.myMessages.count - 1, section: 0) , at: .bottom, animated: true)
                         }
+                        
                     }) // end of ref.child("messages") closure
                 } // end of if statement
             } // end of for loop
         })
+    }
+    
+    // MARK: - Translation Methods
+    func translateText() {
+        
+        for index in 0..<collectionView!.visibleCells.count {
+            
+            // Translate every incoming message to x language
+            let languageTranslator = LanguageTranslator(username: Constants.IbmWatsonApi.username, password: Constants.IbmWatsonApi.password)
+            let failure = { (error: Error) in print(error) }
+            
+            if let messageText = myMessages[index].text {
+                
+                languageTranslator.identify(languageOf: messageText) { [weak self] (currentLanguage) in
+                    
+                    guard let strongSelf = self else { return }
+                    
+                    print("CURRENT_IDENTIFIED_LANGUAGE: \(currentLanguage[0].language) and confidence \(currentLanguage[0].confidence)")
+                    
+                    let listOfInputs: [String] = [messageText]
+                    
+                    if (currentLanguage[0].language != strongSelf.selectedLanguage!.rawValue) { // If it is not the same language, then translate messages
+                        
+                        // Translating received messages' language to selected language
+                        languageTranslator.translate(listOfInputs, from: currentLanguage[0].language, to: strongSelf.selectedLanguage!.rawValue, failure: failure) { translation in
+                            
+                            print("Translation \(translation)")
+                            
+                            DispatchQueue.main.async {
+//                                strongSelf.myMessages.append(message!)
+                                strongSelf.myMessages[index].text = translation.translations[0].translation
+                                strongSelf.collectionView?.reloadData()
+                                strongSelf.collectionView?.scrollToItem(at: IndexPath.init(item: strongSelf.myMessages.count - 1, section: 0) , at: .bottom, animated: true)
+                            }
+                        } // end of translate
+                    } // end of if
+                } // end of identify
+            } // end of if
+            
+        }
     }
     
     //  MARK: - CollectionView Data Source Delegate Methods
@@ -355,37 +395,37 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         return CGSize(width: collectionView.frame.width, height: height)
     }
-
+    
     // TODO: Implement UIMenuController for each collection view cell. (add options: Copy, Translate)
-//    //____________________________________________________________________________________________________________________________________________________________________________________
-//    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-//
-//        let menuItem = UIMenuItem(title: "CUSTOM ACT", action: #selector(translateText))
-//        let menuController = UIMenuController.shared
-//        menuController.menuItems = [menuItem]
-//
-//        return true
-//    }
-//
-//    @objc func translateText(for cellAtIndexPath: IndexPath) {
-//
-//    }
-//
-//    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-//
-//        return (action == NSSelectorFromString("copy:") || action == NSSelectorFromString("translateText:"))
-//    }
-//
-//    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-//
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? ChatMessageCell
-//        if (action == NSSelectorFromString("copy:")) {
-//            print("COPY CALLED!!!")
-//        } else if (action == NSSelectorFromString("translateText:")) {
-//            print("MY TRANSLATE METHOD CALLED!!!, \(cell?.messageTextView.text!)")
-//        }
-//    }
-//    //____________________________________________________________________________________________________________________________________________________________________________________
+    //    //____________________________________________________________________________________________________________________________________________________________________________________
+    //    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
+    //
+    //        let menuItem = UIMenuItem(title: "CUSTOM ACT", action: #selector(translateText))
+    //        let menuController = UIMenuController.shared
+    //        menuController.menuItems = [menuItem]
+    //
+    //        return true
+    //    }
+    //
+    //    @objc func translateText(for cellAtIndexPath: IndexPath) {
+    //
+    //    }
+    //
+    //    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+    //
+    //        return (action == NSSelectorFromString("copy:") || action == NSSelectorFromString("translateText:"))
+    //    }
+    //
+    //    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+    //
+    //        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? ChatMessageCell
+    //        if (action == NSSelectorFromString("copy:")) {
+    //            print("COPY CALLED!!!")
+    //        } else if (action == NSSelectorFromString("translateText:")) {
+    //            print("MY TRANSLATE METHOD CALLED!!!, \(cell?.messageTextView.text!)")
+    //        }
+    //    }
+    //    //____________________________________________________________________________________________________________________________________________________________________________________
     
     // MARK: - String Container Height Methods
     private func estimateFrameForText(text: String) -> CGRect {
@@ -408,7 +448,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     @objc func translateTapped() {
-
+        
         let detailsViewController = DetailViewController()
         detailsViewController.delegate = self
         present(detailsViewController, animated: true, completion: nil)
@@ -422,8 +462,8 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         currentUserTitleContainer.addSubview(userNameLabel)
         
         // Place user information into views
-        profileImageView.loadImageUsingCache(with: userSnapshot.profileImageUrl! as? String ?? "attachment_icon")
-        userNameLabel.text = userSnapshot.username! as? String ?? "NO_NAME"
+        profileImageView.loadImageUsingCache(with: userSnapshot.profileImageUrl!)
+        userNameLabel.text = userSnapshot.username!
         
         currentUserTitleContainer.widthAnchor.constraint(equalToConstant: view .frame.size.width / 2.0).isActive = true
         currentUserTitleContainer.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
@@ -459,15 +499,11 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             cell.profileImageViewLeftAnchor?.isActive = false
             cell.profileImageViewRightAnchor?.isActive = true
             
-            
             // Receiver
         } else {
             
-            
-            print("IT SHOULD BE HERE, the profile image url: \(userSnapshot.profileImageUrl!)")
-            
             cell.bubbleView.backgroundColor = UIColor(rgb: 0xECE5DD) // Light gray color (HEX: #ECE5DD)
-            cell.profileImageView.loadImageUsingCache(with: userSnapshot.profileImageUrl! as? String ?? "usa_icon")
+            cell.profileImageView.loadImageUsingCache(with: userSnapshot.profileImageUrl!)
             
             cell.bubbleViewLeftAnchor?.isActive = true
             cell.bubbleViewRightAnchor?.isActive = false
@@ -620,45 +656,26 @@ extension ChatLogController: DetailViewControllerDelegate {
     func detailViewController(_ controller: DetailViewController, didFinishSelecting language: Languages) {
         
         selectedLanguage = language
-
+        
         switch selectedLanguage! {
         case Languages.english:
             translateMessageButton.setImage(UIImage.init(named: "usa_icon") , for: .normal)
+            translateText()
         case Languages.arabic:
             translateMessageButton.setImage(UIImage.init(named: "saudi_arabia_icon") , for: .normal)
+            translateText()
         case Languages.french:
             translateMessageButton.setImage(UIImage.init(named: "france_icon") , for: .normal)
+            translateText()
         case Languages.spanish:
             translateMessageButton.setImage(UIImage.init(named: "spain_icon") , for: .normal)
+            translateText()
         case Languages.portuguese:
             translateMessageButton.setImage(UIImage.init(named: "portugal_icon") , for: .normal)
+            translateText()
         default:
             translateMessageButton.setImage(UIImage.init(named: "usa_icon") , for: .normal)
         }
-        
-//        // Translate every incoming message to x language
-//        let languageTranslator = LanguageTranslator(username: Constants.IbmWatsonApi.username, password: Constants.IbmWatsonApi.password)
-//        let failure = { (error: Error) in print(error) }
-//
-//        let listOfInputs: [String] = [myMessages[myMessages.count - 1].text!]
-//
-//        // Translating incoming message's language to selected language
-//        languageTranslator.translate(listOfInputs, from: Languages.spanish.rawValue, to: Languages.english.rawValue, failure: failure) { [weak self] translation in
-//
-//            guard let strongSelf = self else { return }
-//
-//            print(translation)
-//
-//            //            for i in 0..<translation.translations.count {
-//            //                print(translation.translations[i].translation)
-//            //            }
-//
-//            strongSelf.myMessages[strongSelf.myMessages.count - 1].text! = translation.translations[0].translation
-//
-//            DispatchQueue.main.async {
-//                strongSelf.collectionView?.reloadData()
-//            }
-//        }
         
         dismiss(animated: true, completion: nil)
         print("DID FINISH SELECTING CALLED")

@@ -19,6 +19,7 @@
 		0F9CD7491FCA9A1200F63165 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9CD7481FCA9A1200F63165 /* Constants.swift */; };
 		0FD32D711FC4568E00542474 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FD32D701FC4568E00542474 /* Assets.xcassets */; };
 		0FD32D731FC47B8A00542474 /* MessagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD32D721FC47B8A00542474 /* MessagesController.swift */; };
+		0FD67BD31FDB0FFE00BD626B /* NewMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD67BD21FDB0FFE00BD626B /* NewMessageController.swift */; };
 		0FEA73351FC1153F005EB6CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA73341FC1153F005EB6CD /* AppDelegate.swift */; };
 		0FEA73371FC1153F005EB6CD /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA73361FC1153F005EB6CD /* LoginController.swift */; };
 		0FEA733A1FC1153F005EB6CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FEA73381FC1153F005EB6CD /* Main.storyboard */; };
@@ -68,6 +69,7 @@
 		0F9CD7481FCA9A1200F63165 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0FD32D701FC4568E00542474 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0FD32D721FC47B8A00542474 /* MessagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesController.swift; sourceTree = "<group>"; };
+		0FD67BD21FDB0FFE00BD626B /* NewMessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageController.swift; sourceTree = "<group>"; };
 		0FEA73311FC1153F005EB6CD /* LingoChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LingoChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FEA73341FC1153F005EB6CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0FEA73361FC1153F005EB6CD /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -143,8 +145,9 @@
 				0FFCF2FD1FD9B83A00F00A3C /* Presentation Controllers */,
 				0FEA73361FC1153F005EB6CD /* LoginController.swift */,
 				0F58B3BE1FC154A200CE3EF0 /* RegisterController.swift */,
-				0F85075D1FC21E42000708EE /* ChatLogController.swift */,
 				0FD32D721FC47B8A00542474 /* MessagesController.swift */,
+				0FD67BD21FDB0FFE00BD626B /* NewMessageController.swift */,
+				0F85075D1FC21E42000708EE /* ChatLogController.swift */,
 				0FFCF2FB1FD9AEAE00F00A3C /* DetailViewController.swift */,
 			);
 			path = Controllers;
@@ -596,6 +599,7 @@
 				0FEA73371FC1153F005EB6CD /* LoginController.swift in Sources */,
 				0FD32D731FC47B8A00542474 /* MessagesController.swift in Sources */,
 				0F8507631FC24E1F000708EE /* ChatMessageCell.swift in Sources */,
+				0FD67BD31FDB0FFE00BD626B /* NewMessageController.swift in Sources */,
 				0FFCF3061FD9C24000F00A3C /* SlideOutAnimationController.swift in Sources */,
 				0F9CD7491FCA9A1200F63165 /* Constants.swift in Sources */,
 				0F835FBD1FC56B7800F52AD6 /* Message.swift in Sources */,

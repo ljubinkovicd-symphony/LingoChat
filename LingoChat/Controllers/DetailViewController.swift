@@ -11,6 +11,7 @@ import UIKit
 
 private let cellId = "cellId"
 private let cellHeight: CGFloat = 60.0
+private let headerHeight: CGFloat = 44.0
 
 // Think of the delegate protocol as a contract between screen B, in this case the Add Item View Controller, and any screens that wish to use it.
 protocol DetailViewControllerDelegate: class {
@@ -58,7 +59,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     let headerLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Translate receiving messages to..."
+        label.text = "Translate all messages to:"
         label.textAlignment = .center
         label.textColor = UIColor.white
         
@@ -74,9 +75,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         uiTableView.translatesAutoresizingMaskIntoConstraints = false
         
         uiTableView.isScrollEnabled = false
-        
-//        uiTableView.layer.cornerRadius = 16.0
-//        uiTableView.layer.masksToBounds = true
         
         return uiTableView
     }()
@@ -127,12 +125,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         containerView.widthAnchor.constraint(equalToConstant: 280.0).isActive = true
-        containerView.heightAnchor.constraint(equalToConstant: cellHeight * CGFloat(countryFlags.count) + 44.0).isActive = true
+        containerView.heightAnchor.constraint(equalToConstant: cellHeight * CGFloat(countryFlags.count) + headerHeight).isActive = true
         
         headerLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
         headerLabel.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
         headerLabel.widthAnchor.constraint(equalTo: containerView.widthAnchor).isActive = true
-        headerLabel.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+        headerLabel.heightAnchor.constraint(equalToConstant: headerHeight).isActive = true
         
         languagesTableView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
         languagesTableView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor).isActive = true
@@ -161,10 +159,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         
         let countryFlagInfo = self.countryFlags[(indexPath as NSIndexPath).row]
         
-//        print(countryFlags[indexPath.row].1.rawValue)
         print(countryFlagInfo.1)
         
-        // TODO: Communicate back to ChatLogController to set the language
+        // Communicate back to ChatLogController to set the language
         chooseLanguage(language: countryFlagInfo.1)
     }
     
